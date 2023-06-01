@@ -1288,29 +1288,31 @@ for gmail in _arr_gmail_infor:
 
         # Tùy chọn cho tìm kiếm:
         # Type of Listing:
-        time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title("Accepts Offers", "Hyperlink")
+        Type_of_listing = app.top_window().child_window(title="Auction", control_type="Hyperlink")
+        Type_of_listing.wait('visible', timeout=30)
+        if Type_of_listing.visible():
             time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title("Auction", "Hyperlink")
-            time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title("All Listings", "Hyperlink")
-            time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title("Condition", "Button")
-            time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title("Shipping", "Button")
-            time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title_re("Sort selector.*", "Button")
-            time.sleep(3)
-        if random.random() < 0.3:
-            click_element_by_title_re("Listing options selector.*", "Button")
-            time.sleep(3)
-
+            if random.random() < 0.3:
+                click_element_by_title("Accepts Offers", "Hyperlink")
+                time.sleep(3)
+            if random.random() < 0.3:
+                click_element_by_title("Auction", "Hyperlink")
+                time.sleep(3)
+            if random.random() < 0.3:
+                click_element_by_title("All Listings", "Hyperlink")
+                time.sleep(3)
+            if random.random() < 0.3:
+                click_element_by_title("Condition", "Button")
+                time.sleep(3)
+            if random.random() < 0.3:
+                click_element_by_title("Shipping", "Button")
+                time.sleep(3)
+            if random.random() < 0.3:
+                click_element_by_title_re("Sort selector.*", "Button")
+                time.sleep(3)
+            if random.random() < 0.3:
+                click_element_by_title_re("Listing options selector.*", "Button")
+                time.sleep(3)
         # Cuon chuot
         scroll_down(random.randit(2,4))
         mouse_move_to_rad()
