@@ -17,7 +17,6 @@ import re
 from io import StringIO
 import contextlib
 
-
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
 
