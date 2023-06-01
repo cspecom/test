@@ -1290,37 +1290,31 @@ for gmail in _arr_gmail_infor:
         # Type of Listing:
         Type_of_listing = app.top_window().child_window(title="Auction", control_type="Hyperlink")
         Type_of_listing.wait('visible', timeout=30)
-        if Type_of_listing.visible():
+
+        if Type_of_listing.exists():
             time.sleep(3)
-            if random.random() < 0.3:
-                click_element_by_title("Accepts Offers", "Hyperlink")
-                time.sleep(3)
-            if random.random() < 0.3:
-                click_element_by_title("Auction", "Hyperlink")
-                time.sleep(3)
-            if random.random() < 0.3:
-                click_element_by_title("All Listings", "Hyperlink")
-                time.sleep(3)
-            if random.random() < 0.3:
-                click_element_by_title("Condition", "Button")
-                time.sleep(3)
-            if random.random() < 0.3:
-                click_element_by_title("Shipping", "Button")
-                time.sleep(3)
+            options = ["Accepts Offers", "Auction", "All Listings", "Condition", "Shipping"]
+            for option in options:
+                if random.random() < 0.3:
+                    click_element_by_title(option, "Hyperlink")
+                    time.sleep(3)
+
             if random.random() < 0.3:
                 click_element_by_title_re("Sort selector.*", "Button")
                 time.sleep(3)
             if random.random() < 0.3:
                 click_element_by_title_re("Listing options selector.*", "Button")
                 time.sleep(3)
+
         # Cuon chuot
-        scroll_down(random.randit(2,4))
+        scroll_amounts = [random.randint(2, 4), random.randint(1, 2), random.randint(3, 5), random.randint(1, 2)]
+        for amount in scroll_amounts:
+            scroll_down(amount)
+            mouse_move_to_rad()
+
+        scroll_up(random.randint(1, 2))
         mouse_move_to_rad()
-        scroll_up(random.randit(1,2))
-        mouse_move_to_rad()
-        scroll_down(random.randit(3,5))
-        mouse_move_to_rad()
-        scroll_up(random.randit(1,2))
+
 
         # Click vào 1 items random trong danh sách tìm kiếm
         click_random_items_all_type()
