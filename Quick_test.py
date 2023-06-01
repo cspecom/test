@@ -1212,8 +1212,7 @@ except:
     print('Set solution false!')
 # Clear DNS cache
 subprocess.run(['ipconfig', '/flushdns'], check=True)
-print("
-      All ARE OKAY, LET'S GO")
+print("All ARE OKAY, LET'S GO")
 time.sleep(5)
 for gmail in _arr_gmail_infor:
     # Set kich thuoc man hinh
