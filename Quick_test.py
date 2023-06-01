@@ -1212,7 +1212,8 @@ except:
     print('Set solution false!')
 # Clear DNS cache
 subprocess.run(['ipconfig', '/flushdns'], check=True)
-print("All ARE OKAY, LET'S GO")
+print("
+      All ARE OKAY, LET'S GO")
 time.sleep(5)
 for gmail in _arr_gmail_infor:
     # Set kich thuoc man hinh
@@ -1265,15 +1266,13 @@ for gmail in _arr_gmail_infor:
         time.sleep(random.uniform(2, 3))
         mouse_move_to_rad()
 
-        if random.random() <= 0.01:
+        if random.random() <= 0.1:
             read_ebay_selling_policy()
             # Về trang chủ của ebay
             go_to_ebay_home_page()
-        # else:
-        #     break
+            mouse_move_to_rad()
 
         # time.sleep(random.uniform(1, 3))
-        mouse_move_to_rad()
         # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
         scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox")
         time.sleep(random.uniform(1, 2))
@@ -1289,34 +1288,38 @@ for gmail in _arr_gmail_infor:
         time.sleep(random.uniform(3, 5))
 
         # Tùy chọn cho tìm kiếm:
-            # Type of Listing:
-        # click_element_by_title("All Listings", "Hyperlink")
+        # Type of Listing:
         time.sleep(3)
-        click_element_by_title("Accepts Offers", "Hyperlink")
-        time.sleep(3)
-        click_element_by_title("Auction", "Hyperlink")
-        time.sleep(3)
-        click_element_by_title("All Listings", "Hyperlink")
-        time.sleep(3)
-        click_element_by_title("Condition", "Button")
-        time.sleep(3)
-        click_element_by_title("Condition", "Button")
-        time.sleep(3)
-        click_element_by_title("Shipping", "Button")
-        time.sleep(3)
-        click_element_by_title_re("Sort selector.*", "Button")
-        time.sleep(3)
-        click_element_by_title_re("Listing options selector.*", "Button")
-        time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title("Accepts Offers", "Hyperlink")
+            time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title("Auction", "Hyperlink")
+            time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title("All Listings", "Hyperlink")
+            time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title("Condition", "Button")
+            time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title("Shipping", "Button")
+            time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title_re("Sort selector.*", "Button")
+            time.sleep(3)
+        if random.random() < 0.3
+            click_element_by_title_re("Listing options selector.*", "Button")
+            time.sleep(3)
 
         # Cuon chuot
-        scroll_down(3)
+        scroll_down(random.randit(2,4))
         mouse_move_to_rad()
-        scroll_up(1)
+        scroll_up(random.randit(1,2))
         mouse_move_to_rad()
-        scroll_down(4)
+        scroll_down(random.randit(3,5))
         mouse_move_to_rad()
-        scroll_up(1)
+        scroll_up(random.randit(1,2))
 
         # Click vào 1 items random trong danh sách tìm kiếm
         click_random_items_all_type()
@@ -1330,19 +1333,11 @@ for gmail in _arr_gmail_infor:
         except:
             app.window(title_re='.*Microsoft Edge.*').CloseButton2.click()
 
-        # app.kill()
-
         try:
            app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
         except:
            send_keys('%{F4}')
-        
-#         try:
-#            app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
-#         except:
-#            send_keys('%{F4}')
-        
-        
+                
         
     except:
         print('FALSEEEEEEEEEEEEEEEEEEEE')
@@ -1350,3 +1345,4 @@ for gmail in _arr_gmail_infor:
         time.sleep(3)
         send_keys('%{F4}')
         time.sleep(15)
+     
