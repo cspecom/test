@@ -1332,10 +1332,10 @@ for gmail in _arr_gmail_infor:
 
         # app.kill()
 
-        try:
-            app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
-        except:
-            send_keys('%{F4}')
+        #try:
+        #    app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
+        #except:
+        #    send_keys('%{F4}')
     except:
         print('FALSEEEEEEEEEEEEEEEEEEEE')
         send_keys('%{F4}')
