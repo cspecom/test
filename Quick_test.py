@@ -786,7 +786,7 @@ def scroll_up(num_of_scrolls, speed=random.randint(1, 3)):
 
 
 # Cuộn chuột xuống cho đến khi thấy element và đọc 10-25 giây
-def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.randint(1, 3)):
+def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.randint(2, 4)):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -804,7 +804,7 @@ def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.r
 
 
 # Cuộn chuột xuống cho đến khi thấy element và đọc 10-25 giây (dùng title_re)
-def scroll_down_to_an_element_by_title_re(element_name, controltype, speed=random.randint(1, 3)):
+def scroll_down_to_an_element_by_title_re(element_name, controltype, speed=random.randint(2, 4)):
     is_element_visible = False
     scroll_down_times = 0
     while (is_element_visible == False):
@@ -823,7 +823,7 @@ def scroll_down_to_an_element_by_title_re(element_name, controltype, speed=rando
 
 
 # Cuộn chuột lên cho đến khi thấy element và đọc 10-25 giây
-def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.randint(1, 3)):
+def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.randint(2, 4)):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -840,7 +840,7 @@ def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.ran
 
 
 # Cuộn chuột lên cho đến khi thấy element và đọc (dạng title_re)
-def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.randint(1, 3)):
+def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.randint(2, 4)):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -857,7 +857,7 @@ def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng title
-def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=randint(1, 3), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=randint(2, 4), x_offset=2, y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -876,7 +876,7 @@ def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=r
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng title
-def scroll_down_to_element_and_click_by_class_name(element_name, controltype, speed=randint(1, 3), x_offset=2,
+def scroll_down_to_element_and_click_by_class_name(element_name, controltype, speed=randint(2, 4), x_offset=2,
                                                    y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
@@ -898,7 +898,7 @@ def scroll_down_to_element_and_click_by_class_name(element_name, controltype, sp
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng auto_id
-def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=randint(1, 3), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=randint(2, 4), x_offset=2, y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -918,7 +918,7 @@ def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=rand
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng Title
-def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=random.randint(2, 3), x_offset=2,
+def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=random.randint(2, 4), x_offset=2,
                                             y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
@@ -939,7 +939,7 @@ def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=ran
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng Classname
-def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, speed=random.randint(2, 3), x_offset=2,
+def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, speed=random.randint(2, 4), x_offset=2,
                                                  y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
@@ -960,7 +960,7 @@ def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, spee
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng auto_id
-def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, speed=random.randint(2, 3), x_offset=2, y_offset=2):
+def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, speed=random.randint(2, 4), x_offset=2, y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 1))
