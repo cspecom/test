@@ -158,9 +158,9 @@ class ScreenRes(object):
 
 def type(string):
     for x in string:
-        time.sleep(random.uniform(0.09, 0.2))
+        time.sleep(random.uniform(0.06, 0.15))
         pyautogui.keyDown(x)
-        time.sleep(random.uniform(0.09, 0.2))
+        time.sleep(random.uniform(0.06, 0.15))
         pyautogui.keyUp(x)
 
 
