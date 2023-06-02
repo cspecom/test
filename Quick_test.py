@@ -20,11 +20,13 @@ import contextlib
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
 
+
 # win32_py = os.path.join(dirname, 'venv\\lib\\site-packages\\tzlocal\\win32.py')
 # print("Repair file: " + win32_py)
 
 def get_pid(name):
     return check_output(["pidof", name])
+
 
 class ScreenRes(object):
     @classmethod
@@ -468,14 +470,17 @@ def gen_infor():
     f_nouns.close()
     f_profesional.close()
 
+
 # generate infors
 gen_infor()
+
 
 def append_err(err):
     with open(file_dir + "err.txt", "a") as myfile:
         myfile.write(err)
         myfile.write('\n')
         myfile.write('\n')
+
 
 def append_mail_to_file(_rd_first_name, _rd_last_name, _rd_user_name, _rd_password, _rd_mail_recover, _rd_birthday):
     with open(file_dir + "data.txt", "a") as myfile:
@@ -491,6 +496,8 @@ def append_mail_to_file(_rd_first_name, _rd_last_name, _rd_user_name, _rd_passwo
         myfile.write('|')
         myfile.write(_rd_birthday)
         myfile.write('\n')
+
+
 def bezier_curve(xa, ya, xb, yb, xc, yc):
     # Tính toán các hệ số của đường thẳng nối hai điểm
     def line(x1, y1, x2, y2):
@@ -522,11 +529,13 @@ def bezier_curve(xa, ya, xb, yb, xc, yc):
         points.append((x, y))
     return points
 
+
 def move_mouse(points):
     # Di chuyển chuột theo các điểm trên đường cong Bezier
     for point in points:
         mouse.move(coords=(round(point[0]), round(point[1])))
         time.sleep(0.001)
+
 
 def move_to(x, y):
     # Lấy tọa độ hiện tại của chuột
@@ -546,10 +555,12 @@ def move_to(x, y):
     # # Click vào điểm đến
     # pywinauto.mouse.click('left', x, y)
 
+
 def move_to_and_click(x, y):
     move_to(x, y)
     # Click vào điểm đến
     pywinauto.mouse.click('left', x, y)
+
 
 def mouse_move_to_rad():
     # Lấy kích thước màn hình
@@ -559,6 +570,7 @@ def mouse_move_to_rad():
     y = random.randint(int(round(height // 6)), int(round((4 * height) // 5)))
     # Di chuyển chuột đến (x,y)
     move_to(x, y)
+
 
 # Cuộn chuột xuống x lần, mỗi lần 1 khoảng cách random
 # def scroll_down(num_of_scrolls, speed=random.randint(1, 3)):
@@ -604,6 +616,7 @@ def click_random_items_all_type():
             else:
                 print(f"Click random items không thành công, di chuyển chuột đến vị trí ngẫu nhiên mới và click tiếp")
 
+
 def click_element_by_auto_id(auto_id, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là auto_id trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
     element = app.top_window().child_window(auto_id=auto_id, control_type=controltype)
@@ -621,7 +634,7 @@ def click_element_by_auto_id(auto_id, controltype, x_offset=2, y_offset=2):
         width, height = pyautogui.size()
         button_x = random.randint(element_x_left + x_offset, element_x_right - x_offset)
         button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
-        while button_y > height-40:
+        while button_y > height - 40:
             button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
         move_to(button_x, button_y)
         time.sleep(random.uniform(0.5, 2))
@@ -631,6 +644,7 @@ def click_element_by_auto_id(auto_id, controltype, x_offset=2, y_offset=2):
 
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(1, 3))
+
 
 def click_element_by_title(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
@@ -649,7 +663,7 @@ def click_element_by_title(element_name, controltype, x_offset=2, y_offset=2):
         width, height = pyautogui.size()
         button_x = random.randint(element_x_left + x_offset, element_x_right - x_offset)
         button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
-        while button_y > height-40:
+        while button_y > height - 40:
             button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
         move_to(button_x, button_y)
         time.sleep(random.uniform(0.5, 2))
@@ -660,6 +674,7 @@ def click_element_by_title(element_name, controltype, x_offset=2, y_offset=2):
 
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(1, 3))
+
 
 def click_element_by_title_re(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
@@ -678,7 +693,7 @@ def click_element_by_title_re(element_name, controltype, x_offset=2, y_offset=2)
         width, height = pyautogui.size()
         button_x = random.randint(element_x_left + x_offset, element_x_right - x_offset)
         button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
-        while button_y > height-40:
+        while button_y > height - 40:
             button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
         move_to(button_x, button_y)
         time.sleep(random.uniform(0.5, 2))
@@ -689,6 +704,7 @@ def click_element_by_title_re(element_name, controltype, x_offset=2, y_offset=2)
 
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(1, 3))
+
 
 def click_element_by_classname(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
@@ -707,7 +723,7 @@ def click_element_by_classname(element_name, controltype, x_offset=2, y_offset=2
         width, height = pyautogui.size()
         button_x = random.randint(element_x_left + x_offset, element_x_right - x_offset)
         button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
-        while button_y > height-40:
+        while button_y > height - 40:
             button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
         move_to(button_x, button_y)
         time.sleep(random.uniform(0.5, 2))
@@ -717,6 +733,7 @@ def click_element_by_classname(element_name, controltype, x_offset=2, y_offset=2
 
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(2, 4))
+
 
 def click_element_by_classname_re(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
@@ -735,7 +752,7 @@ def click_element_by_classname_re(element_name, controltype, x_offset=2, y_offse
         width, height = pyautogui.size()
         button_x = random.randint(element_x_left + x_offset, element_x_right - x_offset)
         button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
-        while button_y > height-40:
+        while button_y > height - 40:
             button_y = random.randint(element_y_top + y_offset, element_y_bottom - y_offset)
         move_to(button_x, button_y)
         time.sleep(random.uniform(0.5, 2))
@@ -746,11 +763,13 @@ def click_element_by_classname_re(element_name, controltype, x_offset=2, y_offse
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(2, 4))
 
+
 # Cuộn chuột xuống x lần, mỗi lần 1 khoảng cách random
 def scroll_down(num_of_scrolls, speed=random.randint(1, 3)):
     for i in range(num_of_scrolls):
         pyautogui.scroll(speed * random.randint(-400, -150))
         time.sleep(random.uniform(1, 6))
+
 
 # Cuộn chuột lên x lần, mỗi lần 1 khoảng cách random
 def scroll_up(num_of_scrolls, speed=random.randint(1, 3)):
@@ -760,7 +779,7 @@ def scroll_up(num_of_scrolls, speed=random.randint(1, 3)):
 
 
 # Cuộn chuột xuống cho đến khi thấy element và đọc 10-25 giây
-def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.randint(1, 3) ):
+def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.randint(1, 3)):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -831,7 +850,7 @@ def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng title
-def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=randint(1,3), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=randint(1, 3), x_offset=2, y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -845,12 +864,13 @@ def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=r
                 click_element_by_title(element_name, controltype, x_offset, y_offset)
             break
         except:
-            pyautogui.scroll(speed* random.randint(-150, -100))
+            pyautogui.scroll(speed * random.randint(-150, -100))
             print(f"Try to get {element_name}")
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng title
-def scroll_down_to_element_and_click_by_class_name(element_name, controltype,speed=randint(1,3), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_class_name(element_name, controltype, speed=randint(1, 3), x_offset=2,
+                                                   y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -871,7 +891,7 @@ def scroll_down_to_element_and_click_by_class_name(element_name, controltype,spe
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng auto_id
-def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype,speed=randint(1,3), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=randint(1, 3), x_offset=2, y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
@@ -891,7 +911,8 @@ def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype,speed=randi
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng Title
-def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=random.randint(2, 3), x_offset=2, y_offset=2):
+def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=random.randint(2, 3), x_offset=2,
+                                            y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 1))
@@ -902,7 +923,7 @@ def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=ran
                 pyautogui.scroll(random.randint(100, 150))
                 mouse_move_to_rad()
                 time.sleep(random.uniform(1, 5))
-                click_element_by_title(element_name,controltype, x_offset, y_offset)
+                click_element_by_title(element_name, controltype, x_offset, y_offset)
                 print(f"Click vào {element_name} thành công!")
             break
         except:
@@ -911,7 +932,8 @@ def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=ran
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng Classname
-def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, speed=random.randint(2, 3), x_offset=2, y_offset=2):
+def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, speed=random.randint(2, 3), x_offset=2,
+                                                 y_offset=2):
     is_element_visible = False
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 1))
@@ -922,7 +944,7 @@ def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, spee
                 pyautogui.scroll(random.randint(100, 150))
                 mouse_move_to_rad()
                 time.sleep(random.uniform(1, 5))
-                click_element_by_classname(element_name,controltype, x_offset, y_offset)
+                click_element_by_classname(element_name, controltype, x_offset, y_offset)
                 print(f"Click vào {element_name} thành công!")
             break
         except:
@@ -942,18 +964,19 @@ def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, speed=random
                 pyautogui.scroll(random.randint(100, 150))
                 mouse_move_to_rad()
                 time.sleep(random.uniform(1, 2))
-                click_element_by_auto_id(auto_id,controltype, x_offset, y_offset)
+                click_element_by_auto_id(auto_id, controltype, x_offset, y_offset)
                 print(f"Click vào {auto_id} thành công!")
             break
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
             print(f"Try to get {auto_id}")
 
+
 # Chạy Nekoray
 def nekoray_VPN_start():
     # Khởi chạy Nekoray
     nekoray_path = os.path.expandvars(r"%USERPROFILE%\Desktop\nekoray\nekoray.exe")
-    f=Application(backend="uia").start(nekoray_path)
+    f = Application(backend="uia").start(nekoray_path)
     time.sleep(5)
     # time.sleep(5)
     nekoray = Application(backend="uia").connect(title_re='.*NekoRay*.')
@@ -980,6 +1003,7 @@ def nekoray_VPN_start():
     mimimize_button.click()
     time.sleep(20)
 
+
 def nekoray_exit():
     #    Khởi chạy Nekoray
     nekoray_path = os.path.expandvars(r"%USERPROFILE%\Desktop\nekoray\nekoray.exe")
@@ -999,15 +1023,17 @@ def nekoray_exit():
     time.sleep(1)
     program_button.click()
     time.sleep(2)
-    move_to(116,351)
-    pywinauto.mouse.click(button='left', coords=(116,351))
+    move_to(116, 351)
+    pywinauto.mouse.click(button='left', coords=(116, 351))
     time.sleep(5)
+
 
 # Về trang chủ ở bất kỳ trang nào ở ebay
 def go_to_ebay_home_page():
     mouse_move_to_rad()
     time.sleep(random.uniform(1, 3))
     scroll_up_to_element_and_click_by_title("eBay Logo", "Hyperlink")
+
 
 # Đọc ebay Help&Contact
 def read_ebay_selling_policy():
@@ -1017,12 +1043,13 @@ def read_ebay_selling_policy():
     time.sleep(random.uniform(3, 6))
     scroll_down(randint(6, 10))
 
+
 # lựa chọn màu sắc, kích thước của item nếu có:
-def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="ComboBox",list_height=20):
+def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="ComboBox", list_height=20):
     combo_box = app.top_window().child_window(auto_id=auto_ID, control_type=control_type)
     if combo_box.exists():
         # Click vào combobox
-        click_element_by_auto_id(auto_ID,control_type)
+        click_element_by_auto_id(auto_ID, control_type)
         print(f"Click ComboBox thành công")
         # combo_box.print_control_identifiers()
         # time.sleep(random.uniform(1, 2))
@@ -1062,11 +1089,73 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
         combo_box_y_top = combo_box_rect.top
         combo_box_y_bottom = combo_box_rect.bottom
         # Tọa độ của List_Item được chọn
-        list_item_x=random.randint(combo_box_x_left+2, combo_box_x_right-2)
-        if combo_box_y_bottom+5+(total_index-1)*list_height <= height-40:
-            list_item_y=random.randint(combo_box_y_bottom+5+(index-1)*list_height+2, combo_box_y_bottom+5+index*list_height-2)
+        list_item_x = random.randint(combo_box_x_left + 2, combo_box_x_right - 2)
+        if combo_box_y_bottom + 5 + (total_index - 1) * list_height <= height - 40:
+            list_item_y = random.randint(combo_box_y_bottom + 5 + (index - 1) * list_height + 2,
+                                         combo_box_y_bottom + 5 + index * list_height - 2)
         else:
-            list_item_y=random.randint(combo_box_y_top-5-(total_index-index)*list_height+2, combo_box_y_top-5-(total_index-index-1)*list_height-2)
+            list_item_y = random.randint(combo_box_y_top - 5 - (total_index - index) * list_height + 2,
+                                         combo_box_y_top - 5 - (total_index - index - 1) * list_height - 2)
+        print(f"Tọa độ click là: {list_item_x}, {list_item_y}")
+        move_to(list_item_x, list_item_y)
+        pywinauto.mouse.click(button='left', coords=(list_item_x, list_item_y))
+        print(f"Chọn giá trị random cho item thành công")
+    else:
+        print("Không có option")
+
+
+# Sort item search by random:
+def sort_selector():
+    sort_selector= app.top_window().child_window(title_re="Sort selector.*", control_type ="Button")
+    if sort_selector.exists():
+        # Click vào sort_selector
+        click_element_by_title_re("Sort selector.*", "Button")
+        print(f"Click sort_selector thành công")
+        sort_selector.print_control_identifiers()
+        # time.sleep(random.uniform(1, 2))
+        with contextlib.redirect_stdout(StringIO()) as f:
+            sort_selector.print_control_identifiers()
+            identifiers_str = f.getvalue()
+
+        print(identifiers_str)
+        pattern = r'title="([^"]*)"[\s\S]*?auto_id="([^"]*)"[\s\S]*?control_type="([^"]*)"'
+        matches = re.findall(pattern, identifiers_str)
+        # result = [[match[0], match[1], match[2]] for match in matches]
+        result = [match[0] for match in matches]
+        selected_element = random.choice(result)
+        # Tìm phần tử thích hợp
+        index = None
+        while index is None:
+            selected_element = random.choice(result)
+            for i, element in enumerate(result):
+                if element == selected_element and i > 1 and "Out Of Stock" not in element:
+                    index = i
+                    break
+
+        # In ra số thứ tự của phần tử thích hợp
+        print(f"Giá trị được chọn là: {selected_element}")
+        print(f"Số thứ tự của giá trị được chọn là: {index}")
+
+        total_index = len(result)
+        print(f"Tổng số lựa chọn là: {total_index}")
+
+        # Xác định tọa độ của lựa chọn:
+        # List_height mặc định là 20pixel -> Khoảng rộng của ô List
+        # Lấy tọa độ của combobox:
+        width, height = pyautogui.size()
+        combo_box_rect = combo_box.rectangle()
+        combo_box_x_left = combo_box_rect.left
+        combo_box_x_right = combo_box_rect.right
+        combo_box_y_top = combo_box_rect.top
+        combo_box_y_bottom = combo_box_rect.bottom
+        # Tọa độ của List_Item được chọn
+        list_item_x = random.randint(combo_box_x_left + 2, combo_box_x_right - 2)
+        if combo_box_y_bottom + 5 + (total_index - 1) * list_height <= height - 40:
+            list_item_y = random.randint(combo_box_y_bottom + 5 + (index - 1) * list_height + 2,
+                                         combo_box_y_bottom + 5 + index * list_height - 2)
+        else:
+            list_item_y = random.randint(combo_box_y_top - 5 - (total_index - index) * list_height + 2,
+                                         combo_box_y_top - 5 - (total_index - index - 1) * list_height - 2)
         print(f"Tọa độ click là: {list_item_x}, {list_item_y}")
         move_to(list_item_x, list_item_y)
         pywinauto.mouse.click(button='left', coords=(list_item_x, list_item_y))
@@ -1078,10 +1167,10 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
 # Thao tác trong trang items:
 def auto_actions_on_the_detailed_item_page():
     # Check if have close button
-    if app.top_window().child_window(title_re=".*close.*",control_type="Button").exists():
-        click_element_by_title_re(".*close.*","Button")
+    if app.top_window().child_window(title_re=".*close.*", control_type="Button").exists():
+        click_element_by_title_re(".*close.*", "Button")
     # 1.Click vào hình ảnh để phóng to:
-    click_element_by_classname_re(".*ux-image-carousel.*", "Button",30,5)
+    click_element_by_classname_re(".*ux-image-carousel.*", "Button", 30, 5)
     print("Click vào Image thành công")
     time.sleep(3)
 
@@ -1093,15 +1182,15 @@ def auto_actions_on_the_detailed_item_page():
             if next_image_button.exists():
                 is_next_image_button = True
                 # Click vào nút next image, một số lần ngẫu nhiên
-                click_element_by_title("Next image - Item images", "Button",7,7)
+                click_element_by_title("Next image - Item images", "Button", 7, 7)
                 time.sleep(random.uniform(1, 3))
                 num_clicks = random.randint(1, 6)
                 for i in range(num_clicks):
                     pyautogui.click()
                     time.sleep(random.uniform(1, 4))
-                if random.random()<0.5:
+                if random.random() < 0.5:
                     # Click vào nút previous image, một số lần ngẫu nhiên
-                    click_element_by_title("Previous image - Item images", "Button",7,7)
+                    click_element_by_title("Previous image - Item images", "Button", 7, 7)
                     time.sleep(random.uniform(1, 2))
                     num_clicks = random.randint(1, 6)
                     for i in range(num_clicks):
@@ -1112,13 +1201,13 @@ def auto_actions_on_the_detailed_item_page():
         except:
             break
     time.sleep(random.uniform(0.1, 1))
-    click_element_by_title("Close image gallery dialog", "Button",7,7)
+    click_element_by_title("Close image gallery dialog", "Button", 7, 7)
     time.sleep(random.uniform(0.1, 1))
     mouse_move_to_rad()
     time.sleep(random.uniform(0.1, 1))
     scroll_down_to_an_element_by_title("About this item", "Button")
     time.sleep(2)
-    random_percent=random.random()
+    random_percent = random.random()
     print(random_percent)
     # if random.percent < 0.03:
     #     scroll_up(0.5)
@@ -1135,7 +1224,7 @@ def auto_actions_on_the_detailed_item_page():
         choose_random_item_option("x-msku__select-box-1002")
         choose_random_item_option("x-msku__select-box-1003")
         time.sleep(2)
-        scroll_down_to_element_and_click_by_title("Add to watchlist", "Button",1)
+        scroll_down_to_element_and_click_by_title("Add to watchlist", "Button", 1)
 
         # scroll_up_to_an_element_by_title("Add to cart", "HyperLink",2)
         time.sleep(3)
@@ -1159,6 +1248,7 @@ def auto_actions_on_the_detailed_item_page():
             auto_actions_on_the_detailed_item_page()
         else:
             print("Không bấm chọn items khác, tiếp tục")
+
 
 # Kiểm tra IP
 is_session_ok = False
@@ -1217,7 +1307,7 @@ time.sleep(5)
 for gmail in _arr_gmail_infor:
     # Set kich thuoc man hinh
     try:
-         # Khởi động trình duyệt Microsoft Edge và đợi cho tới khi cửa sổ "New tab - Profile 1" được mở ra
+        # Khởi động trình duyệt Microsoft Edge và đợi cho tới khi cửa sổ "New tab - Profile 1" được mở ra
         start_app = Application(backend="uia").start(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
         time.sleep(15)
 
@@ -1293,21 +1383,23 @@ for gmail in _arr_gmail_infor:
 
         if Type_of_listing.exists():
             time.sleep(3)
-            options = ["Auction", "Buy it now", "Condition", "Shipping"]
+            options = ["Auction", "Buy It Now"]
             for option in options:
                 if random.random() < 0.3:
                     click_element_by_title(option, "Hyperlink")
                     time.sleep(3)
+        # Sort by:
 
-            if random.random() < 0.3:
-                click_element_by_title_re("Sort selector.*", "Button")
-                time.sleep(3)
-            if random.random() < 0.3:
-                click_element_by_title_re("Listing options selector.*", "Button")
-                time.sleep(3)
+        if random.random() < 0.7:
+            click_element_by_title_re("Sort selector.*", "Button")
+            time.sleep(3)
+        if random.random() < 0.3:
+            click_element_by_title_re("Listing options selector.*", "Button")
+            time.sleep(3)
 
         # Cuon chuot
-        scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"), (random.randint(1, 2), "up")]
+        scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
+                          (random.randint(1, 2), "up")]
         for scroll_amount, scroll_direction in scroll_actions:
             if scroll_direction == "down":
                 scroll_down(scroll_amount)
@@ -1317,8 +1409,6 @@ for gmail in _arr_gmail_infor:
             # Randomly move the mouse with a probability of 50%
             if random.random() < 0.5:
                 mouse_move_to_rad()
-
-    
 
         # Click vào 1 items random trong danh sách tìm kiếm
         click_random_items_all_type()
@@ -1333,15 +1423,12 @@ for gmail in _arr_gmail_infor:
             app.window(title_re='.*Microsoft Edge.*').CloseButton2.click()
 
         try:
-           app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
+            app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
         except:
-           send_keys('%{F4}')
-                
-        
+            send_keys('%{F4}')
     except:
         print('FALSEEEEEEEEEEEEEEEEEEEE')
         send_keys('%{F4}')
         time.sleep(3)
         send_keys('%{F4}')
         time.sleep(15)
-     
