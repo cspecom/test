@@ -475,6 +475,13 @@ def gen_infor():
 gen_infor()
 
 
+def random_choice():
+    options = [2, 3, 4, 5, 6]
+    weights = [0.1, 0.2, 0.3, 0.3, 0.1]
+    choice = random.choices(options, weights=weights)[0]
+    index = options.index(choice) + 1
+    print("Chọn số thứ", index, ": ", choice)
+
 def append_err(err):
     with open(file_dir + "err.txt", "a") as myfile:
         myfile.write(err)
@@ -1304,27 +1311,28 @@ except:
 subprocess.run(['ipconfig', '/flushdns'], check=True)
 print("All ARE OKAY, LET'S GO")
 time.sleep(5)
-for gmail in _arr_gmail_infor:
-    # Set kich thuoc man hinh
-    try:
-        # Khởi động trình duyệt Microsoft Edge và đợi cho tới khi cửa sổ "New tab - Profile 1" được mở ra
-        start_app = Application(backend="uia").start(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
-        time.sleep(15)
+# Khởi động trình duyệt Microsoft Edge và đợi cho tới khi cửa sổ "New tab - Profile 1" được mở ra
+Application(backend="uia").start(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+time.sleep(20)
 
-        # Kết nối đến trình duyệt Microsoft Edge và tìm kiếm control thanh địa chỉ
+for gmail in _arr_gmail_infor:
+    try:
         try:
             app = Application(backend="uia").connect(title_re=".*Edge.*")
             app.top_window().wait('ready', timeout=60)
-            address_bar = app.window(title_re='.*New tab - Profile 1.*').child_window(auto_id="view_1020",
+            app.top_window().maximize()
+            time.sleep(10)
+            address_bar = app.window(title_re='.*Profile.*').child_window(auto_id="view_1020",
                                                                                       control_type="Edit")
             address_bar.wait('ready', timeout=60)
         except Exception as e:
             print(f"Lỗi khi kết nối đến trình duyệt Microsoft Edge: {e}")
             exit()
 
-        # Nhập địchỉ trang web và chờ cho đến khi nó được tải hoàn tất
+        # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
         try:
-            address_bar.set_text("https://ebay.com")
+            address_bar.set_text("ebay.com")
+            time.sleep(2)
             send_keys("{ENTER}")
             app.top_window().wait('ready', timeout=60)
         except Exception as e:
@@ -1380,6 +1388,39 @@ for gmail in _arr_gmail_infor:
         # Type of Listing:
         Type_of_listing = app.top_window().child_window(title="Auction", control_type="Hyperlink")
         Type_of_listing.wait('visible', timeout=30)
+        sort_selector = app.top_window().child_window(title_re="Sort selector.*", control_type="Button")
+        if sort_selector.exists():
+            # Click vào sort_selector
+            click_element_by_title_re("Sort selector.*", "Button")
+            print(f"Click sort_selector thành công")
+            # random_choice:
+            options = [2, 3, 4, 5, 6]
+            weights = [0.1, 0.1, 0.7, 0.05, 0.05]
+            choice = random.choices(options, weights=weights)[0]
+            index = choice
+            # In ra số thứ tự của phần tử thích hợp
+            print("Chọn số thứ", index, ": ", choice)
+            print(f"Giá trị được chọn là: {choice}")
+            print(f"Số thứ tự của giá trị được chọn là: {index}")
+            # Xác định tọa độ của lựa chọn:
+            # Lấy tọa độ của combobox:
+            width, height = pyautogui.size()
+            sort_selector_rect = sort_selector.rectangle()
+            sort_selector_x_left = sort_selector_rect.left
+            sort_selector_x_right = sort_selector_rect.right
+            sort_selector_y_top = sort_selector_rect.top
+            sort_selector_y_bottom = sort_selector_rect.bottom
+            # Tọa độ của List_Item được chọn
+            selected_x = random.randint(sort_selector_x_left - (sort_selector_x_right-sort_selector_x_left)+10, sort_selector_x_right - 5)
+            selected_y = random.randint(sort_selector_y_bottom + 15 + (index - 1) * 35 + 4,
+                                             sort_selector_y_bottom + 15 + index * 35 - 4)
+
+            print(f"Tọa độ click là: {selected_x}, {selected_y}")
+            move_to(selected_x, selected_y)
+            pywinauto.mouse.click(button='left', coords=(selected_x, selected_y))
+            print(f"Chọn giá trị cho sort_selector thành công")
+        else:
+            print("Không có option")
 
         if Type_of_listing.exists():
             time.sleep(3)
@@ -1389,13 +1430,23 @@ for gmail in _arr_gmail_infor:
                     click_element_by_title(option, "Hyperlink")
                     time.sleep(3)
         # Sort by:
-
-        if random.random() < 0.7:
-            click_element_by_title_re("Sort selector.*", "Button")
-            time.sleep(3)
         if random.random() < 0.3:
             click_element_by_title_re("Listing options selector.*", "Button")
-            time.sleep(3)
+            Listing_options = app.top_window().child_window(title_re="Listing options selector.*", control_type="Button")
+
+            width, height = pyautogui.size()
+            Listing_options_rect = Listing_options.rectangle()
+            Listing_options_x_left = Listing_options_rect.left
+            Listing_options_x_right = Listing_options_rect.right
+            Listing_options_y_top = Listing_options_rect.top
+            Listing_options_y_bottom = Listing_options_rect.bottom
+            # Tọa độ của List_Item được chọn
+            selected_x = random.randint(Listing_options_x_left - 30 + 5 , Listing_options_x_right - 5)
+            selected_y = random.randint(Listing_options_y_bottom + 5 + 5, Listing_options_y_bottom + 5 + 35 - 5)
+            move_to(selected_x, selected_y)
+            pywinauto.mouse.click(button='left', coords=(selected_x, selected_y))
+            print(f"Chọn Listing_options thành công")
+            time.sleep(10)
 
         # Cuon chuot
         scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
@@ -1405,9 +1456,8 @@ for gmail in _arr_gmail_infor:
                 scroll_down(scroll_amount)
             else:
                 scroll_up(scroll_amount)
-
             # Randomly move the mouse with a probability of 50%
-            if random.random() < 0.5:
+            if random.random() < 0.7:
                 mouse_move_to_rad()
 
         # Click vào 1 items random trong danh sách tìm kiếm
@@ -1417,18 +1467,7 @@ for gmail in _arr_gmail_infor:
         # Thao tác trong trang items chi tiết:
         auto_actions_on_the_detailed_item_page()
 
-        try:
-            send_keys('%{F4}')
-        except:
-            app.window(title_re='.*Microsoft Edge.*').CloseButton2.click()
-
-        try:
-            app.window(best_match='Profile 1 - Microsoft​ Edge').CloseButton1.click()
-        except:
-            send_keys('%{F4}')
     except:
-        print('FALSEEEEEEEEEEEEEEEEEEEE')
-        send_keys('%{F4}')
-        time.sleep(3)
-        send_keys('%{F4}')
-        time.sleep(15)
+        print("It's OK, no problem, bro")
+        time.sleep(10)
+
