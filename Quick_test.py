@@ -1293,7 +1293,7 @@ for gmail in _arr_gmail_infor:
 
         if Type_of_listing.exists():
             time.sleep(3)
-            options = ["Accepts Offers", "Auction", "All Listings", "Condition", "Shipping"]
+            options = ["Auction", "Buy it now", "Condition", "Shipping"]
             for option in options:
                 if random.random() < 0.3:
                     click_element_by_title(option, "Hyperlink")
@@ -1307,14 +1307,18 @@ for gmail in _arr_gmail_infor:
                 time.sleep(3)
 
         # Cuon chuot
-        scroll_amounts = [random.randint(2, 4), random.randint(1, 2), random.randint(3, 5), random.randint(1, 2)]
-        for amount in scroll_amounts:
-            scroll_down(amount)
-            mouse_move_to_rad()
+        scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"), (random.randint(1, 2), "up")]
+        for scroll_amount, scroll_direction in scroll_actions:
+            if scroll_direction == "down":
+                scroll_down(scroll_amount)
+            else:
+                scroll_up(scroll_amount)
 
-        scroll_up(random.randint(1, 2))
-        mouse_move_to_rad()
+            # Randomly move the mouse with a probability of 50%
+            if random.random() < 0.5:
+                mouse_move_to_rad()
 
+    
 
         # Click vào 1 items random trong danh sách tìm kiếm
         click_random_items_all_type()
