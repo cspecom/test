@@ -1207,7 +1207,7 @@ def auto_actions_on_the_detailed_item_page():
                 break
         except:
             break
-    time.sleep(random.uniform(0.1, 1))
+    time.sleep(random.uniform(1, 2))
     click_element_by_title("Close image gallery dialog", "Button", 5, 5)
     time.sleep(random.uniform(0.1, 1))
     mouse_move_to_rad()
