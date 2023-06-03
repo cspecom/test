@@ -1470,4 +1470,22 @@ for gmail in _arr_gmail_infor:
     except:
         print("It's OK, no problem, bro")
         time.sleep(10)
+try:
+    send_keys('%{F4}')
+except:
+    app.window(best_match='Profile 1 - Microsoftâ€‹ Edge').CloseButton1.click()
+
+try:
+    send_keys('%{F4}')
+except:
+    app.window(best_match='Profile 1 - Microsoftâ€‹ Edge').CloseButton1.click()
+
+try:
+    send_keys('%{F4}')
+except:
+    app.window(best_match='Profile 1 - Microsoftâ€‹ Edge').CloseButton1.click()
+
+print("Completed AutoEbay run, PC will shutdown in next 30s")
+time.sleep(30)
+os.system("shutdown /s /t 30")
 
