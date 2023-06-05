@@ -831,8 +831,8 @@ def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.ran
             target_element = app.top_window().child_window(title=element_name, control_type=controltype)
             if target_element.is_visible():
                 is_element_visible = True
-                pyautogui.scroll(random.randint(100, 150))
-                time.sleep(random.uniform(10, 25))
+                # pyautogui.scroll(random.randint(100, 150))
+                # time.sleep(random.uniform(1, 2))
             break
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
@@ -849,7 +849,7 @@ def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.
             if target_element.is_visible():
                 is_element_visible = True
                 pyautogui.scroll(random.randint(100, 150))
-                time.sleep(random.uniform(1, 3))
+                time.sleep(random.uniform(1, 2))
             break
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
@@ -1010,31 +1010,6 @@ def nekoray_VPN_start():
     mimimize_button.click()
     time.sleep(20)
 
-
-def nekoray_exit():
-    #    Khởi chạy Nekoray
-    nekoray_path = os.path.expandvars(r"%USERPROFILE%\Desktop\nekoray\nekoray.exe")
-    Application(backend="uia").start(nekoray_path)
-    time.sleep(5)
-    nekoray = Application(backend="uia").connect(title_re='.*NekoRay*.')
-    nekoray_main_window = nekoray.window(title_re='.*NekoRay*.')
-    maximize_button = nekoray_main_window.child_window(title="Maximize", control_type="Button")
-    mimimize_button = nekoray_main_window.child_window(title="Minimize", control_type="Button")
-    time.sleep(2)
-    maximize_button.click()
-    print('maximize thanh cong')
-    time.sleep(1)
-    # nekoray = Application(backend="uia").connect(title_re='.*NekoRay*.')
-    program_button = nekoray_main_window.child_window(title="Program", control_type="Button")
-    program_button.wait('visible')
-    time.sleep(1)
-    program_button.click()
-    time.sleep(2)
-    move_to(116, 351)
-    pywinauto.mouse.click(button='left', coords=(116, 351))
-    time.sleep(5)
-
-
 # Về trang chủ ở bất kỳ trang nào ở ebay
 def go_to_ebay_home_page():
     mouse_move_to_rad()
@@ -1075,7 +1050,7 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
         while index is None:
             selected_element = random.choice(result)
             for i, element in enumerate(result):
-                if element == selected_element and i > 1 and "Out Of Stock" not in element:
+                if element == selected_element and i > 1 and i <= 20 and "Out Of Stock" not in element:
                     index = i
                     break
 
@@ -1083,7 +1058,10 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
         print(f"Giá trị được chọn là: {selected_element}")
         print(f"Số thứ tự của giá trị được chọn là: {index}")
 
-        total_index = len(result)
+        if len(result) > 20:
+            total_index = 20
+        else:
+            total_index = len(result)
         print(f"Tổng số lựa chọn là: {total_index}")
 
         # Xác định tọa độ của lựa chọn:
@@ -1096,7 +1074,7 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
         combo_box_y_top = combo_box_rect.top
         combo_box_y_bottom = combo_box_rect.bottom
         # Tọa độ của List_Item được chọn
-        list_item_x = random.randint(combo_box_x_left + 2, combo_box_x_right - 2)
+        list_item_x = random.randint(combo_box_x_left + 7, combo_box_x_right - 7)
         if combo_box_y_bottom + 5 + (total_index - 1) * list_height <= height - 40:
             list_item_y = random.randint(combo_box_y_bottom + 5 + (index - 1) * list_height + 2,
                                          combo_box_y_bottom + 5 + index * list_height - 2)
@@ -1110,65 +1088,69 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
     else:
         print("Không có option")
 
-
-# Sort item search by random:
-def sort_selector():
-    sort_selector= app.top_window().child_window(title_re="Sort selector.*", control_type ="Button")
-    if sort_selector.exists():
-        # Click vào sort_selector
-        click_element_by_title_re("Sort selector.*", "Button")
-        print(f"Click sort_selector thành công")
-        sort_selector.print_control_identifiers()
-        # time.sleep(random.uniform(1, 2))
-        with contextlib.redirect_stdout(StringIO()) as f:
-            sort_selector.print_control_identifiers()
-            identifiers_str = f.getvalue()
-
-        print(identifiers_str)
-        pattern = r'title="([^"]*)"[\s\S]*?auto_id="([^"]*)"[\s\S]*?control_type="([^"]*)"'
-        matches = re.findall(pattern, identifiers_str)
-        # result = [[match[0], match[1], match[2]] for match in matches]
-        result = [match[0] for match in matches]
-        selected_element = random.choice(result)
-        # Tìm phần tử thích hợp
-        index = None
-        while index is None:
-            selected_element = random.choice(result)
-            for i, element in enumerate(result):
-                if element == selected_element and i > 1 and "Out Of Stock" not in element:
-                    index = i
-                    break
-
-        # In ra số thứ tự của phần tử thích hợp
-        print(f"Giá trị được chọn là: {selected_element}")
-        print(f"Số thứ tự của giá trị được chọn là: {index}")
-
-        total_index = len(result)
-        print(f"Tổng số lựa chọn là: {total_index}")
-
-        # Xác định tọa độ của lựa chọn:
-        # List_height mặc định là 20pixel -> Khoảng rộng của ô List
-        # Lấy tọa độ của combobox:
-        width, height = pyautogui.size()
-        combo_box_rect = combo_box.rectangle()
-        combo_box_x_left = combo_box_rect.left
-        combo_box_x_right = combo_box_rect.right
-        combo_box_y_top = combo_box_rect.top
-        combo_box_y_bottom = combo_box_rect.bottom
-        # Tọa độ của List_Item được chọn
-        list_item_x = random.randint(combo_box_x_left + 2, combo_box_x_right - 2)
-        if combo_box_y_bottom + 5 + (total_index - 1) * list_height <= height - 40:
-            list_item_y = random.randint(combo_box_y_bottom + 5 + (index - 1) * list_height + 2,
-                                         combo_box_y_bottom + 5 + index * list_height - 2)
-        else:
-            list_item_y = random.randint(combo_box_y_top - 5 - (total_index - index) * list_height + 2,
-                                         combo_box_y_top - 5 - (total_index - index - 1) * list_height - 2)
-        print(f"Tọa độ click là: {list_item_x}, {list_item_y}")
-        move_to(list_item_x, list_item_y)
-        pywinauto.mouse.click(button='left', coords=(list_item_x, list_item_y))
-        print(f"Chọn giá trị random cho item thành công")
-    else:
-        print("Không có option")
+#
+# # Sort item search by random:
+# def sort_selector():
+#     sort_selector= app.top_window().child_window(title_re="Sort selector.*", control_type ="Button")
+#     if sort_selector.exists():
+#         # Click vào sort_selector
+#         click_element_by_title_re("Sort selector.*", "Button")
+#         print(f"Click sort_selector thành công")
+#         sort_selector.print_control_identifiers()
+#         # time.sleep(random.uniform(1, 2))
+#         with contextlib.redirect_stdout(StringIO()) as f:
+#             sort_selector.print_control_identifiers()
+#             identifiers_str = f.getvalue()
+#
+#         print(identifiers_str)
+#         pattern = r'title="([^"]*)"[\s\S]*?auto_id="([^"]*)"[\s\S]*?control_type="([^"]*)"'
+#         matches = re.findall(pattern, identifiers_str)
+#         # result = [[match[0], match[1], match[2]] for match in matches]
+#         result = [match[0] for match in matches]
+#         selected_element = random.choice(result)
+#         # Tìm phần tử thích hợp
+#         index = None
+#         while index is None:
+#             selected_element = random.choice(result)
+#             for i, element in enumerate(result):
+#                 if element == selected_element and i > 1 and i <= 20 and "Out Of Stock" not in element:
+#                     index = i
+#                     break
+#
+#         # In ra số thứ tự của phần tử thích hợp
+#         print(f"Giá trị được chọn là: {selected_element}")
+#         print(f"Số thứ tự của giá trị được chọn là: {index}")
+#
+#         if len(result) > 20:
+#             total_index = 20
+#         else:
+#             total_index = len(result)
+#
+#         print(f"Tổng số lựa chọn là: {total_index}")
+#
+#         # Xác định tọa độ của lựa chọn:
+#         # List_height mặc định là 20pixel -> Khoảng rộng của ô List
+#         # Lấy tọa độ của combobox:
+#         width, height = pyautogui.size()
+#         combo_box_rect = combo_box.rectangle()
+#         combo_box_x_left = combo_box_rect.left
+#         combo_box_x_right = combo_box_rect.right
+#         combo_box_y_top = combo_box_rect.top
+#         combo_box_y_bottom = combo_box_rect.bottom
+#         # Tọa độ của List_Item được chọn
+#         list_item_x = random.randint(combo_box_x_left + 7, combo_box_x_right - 7)
+#         if combo_box_y_bottom + 5 + (total_index - 1) * list_height <= height - 40:
+#             list_item_y = random.randint(combo_box_y_bottom + 5 + (index - 1) * list_height + 2,
+#                                          combo_box_y_bottom + 5 + index * list_height - 2)
+#         else:
+#             list_item_y = random.randint(combo_box_y_top - 5 - (total_index - index) * list_height + 2,
+#                                          combo_box_y_top - 5 - (total_index - index - 1) * list_height - 2)
+#         print(f"Tọa độ click là: {list_item_x}, {list_item_y}")
+#         move_to(list_item_x, list_item_y)
+#         pywinauto.mouse.click(button='left', coords=(list_item_x, list_item_y))
+#         print(f"Chọn giá trị random cho item thành công")
+#     else:
+#         print("Không có option")
 
 
 # Thao tác trong trang items:
@@ -1214,48 +1196,93 @@ def auto_actions_on_the_detailed_item_page():
     time.sleep(random.uniform(0.1, 1))
     scroll_down_to_an_element_by_title("About this item", "Button")
     time.sleep(2)
-    random_percent = random.random()
-    print(random_percent)
-    # if random.percent < 0.03:
-    #     scroll_up(0.5)
-    #     mouse_move_to_rad()
-    #     click_element_by_title("Shipping, returns & payments", "Button")
-    # print("Không bấm vào Shipping detail, tiếp tục")
-    # scroll_down(2)fire stic
-    # time.sleep(10)
-    if random_percent <= 0.5:
-        scroll_up_to_an_element_by_title("Add to watchlist", "Button")
-        scroll_up(1)
-        choose_random_item_option("x-msku__select-box-1000")
-        choose_random_item_option("x-msku__select-box-1001")
-        choose_random_item_option("x-msku__select-box-1002")
-        choose_random_item_option("x-msku__select-box-1003")
-        time.sleep(2)
-        scroll_down_to_element_and_click_by_title("Add to watchlist", "Button", 1)
 
-        # scroll_up_to_an_element_by_title("Add to cart", "HyperLink",2)
-        time.sleep(3)
-        click_element_by_title("Add to cart", "Hyperlink")
-        time.sleep(3)
+    if random.random() < 0.05:
+        scroll_up(0.5)
+        mouse_move_to_rad()
+        click_element_by_title("Shipping, returns & payments", "Button")
+    print("Không bấm vào Shipping detail, tiếp tục")
+
+    if random.random() <= 0.2:
+        target_element = scroll_up_to_element_by_title_while_not_finding_stop_element("Add to watchlist", "Button",
+                                                                                      random.randint(2, 4), 15,
+                                                                                      "Watching")
+        if target_element is not None:
+            print("Đã tìm thấy Add to watchlist Button")
+            scroll_up_to_an_element_by_title("eBay Logo", "Hyperlink", random.randint(4,6))
+            print("Đã lên trên cùng trang ebay")
+            choose_random_item_option("x-msku__select-box-1000")
+            choose_random_item_option("x-msku__select-box-1001")
+            choose_random_item_option("x-msku__select-box-1002")
+            choose_random_item_option("x-msku__select-box-1003")
+            time.sleep(random.uniform(1,2))
+            try:
+                add_to_watchlist_button = app.top_window().child_window(title="Add to watchlist", control_type="Button")
+                if add_to_watchlist_button.exists():
+                    click_element_by_title("Add to watchlist", "Button")
+                    time.sleep(random.uniform(3,5))
+                    if random.random() < 0.5:
+                        try:
+                            add_to_cart_button = app.top_window().child_window(title="Add to cart",
+                                                                                    control_type="Hyperlink")
+                            if add_to_cart_button.exists():
+                                click_element_by_title("Add to cart", "Hyperlink")
+                                print("Add to cart thành công")
+                                time.sleep(random.uniform(3,5))
+                                actions = [
+                                    lambda: click_element_by_title_re(".*Close button.*", "Button"),  # Close Dialog
+                                    lambda: click_element_by_title_re(".*Checkout.*", "Hyperlink"),  # Go to Checkout Page
+                                    lambda: click_element_by_title("Go to cart", "Hyperlink"),  # Go to Cart
+                                ]
+                                weights = [0.75, 0.15, 0.1]
+                                random_action = random.choices(actions, weights=weights)[0]
+                                random_action()
+                            else:
+                                print("Items đã được Add to cart từ trước")
+                        except Exception as e:
+                            print(f"Lỗi: {e}")
+                    else:
+                        print("Không Add to cart")
+                else:
+                    print("Item đã được Add to watchlist từ trước")
+            except Exception as e:
+                print(f"Lỗi: {e}")
+        else:
+            print("Item đã được Add to watchlist từ trước")
+    else:
+        #print("Không bấm chọn items khác, tiếp tục")
         actions = [
-            lambda: click_element_by_title_re(".*Close button.*", "Button"),  # Close Dialog
-            lambda: click_element_by_title_re(".*Checkout.*", "Hyperlink"),  # Go to Checkout Page
-            lambda: click_element_by_title("Go to cart", "Hyperlink"),  # Go to Cart
-            lambda: click_element_by_title("See all", "Hyperlink")  # See other items like this
+            lambda: scroll_up_to_an_element_by_title_re(".*Similar.*", "Text"),
+            lambda: scroll_up_to_an_element_by_title_re(".*sponsored.*", "Text"),
+            lambda: scroll_down_to_an_element_by_title_re(".*Find more.*", "Text"),
+            lambda: scroll_down_to_an_element_by_title_re(".*also viewed.*", "Text"),
         ]
-        weights = [0.2, 0.3, 0.4, 0.1]
+        weights = [0.25, 0.25, 0.25, 0.25]
         random_action = random.choices(actions, weights=weights)[0]
         random_action()
+        # scroll_up_to_an_element_by_title_re(".*Similar.*", "Text")
+        # scroll_down(1)
+        click_random_items_all_type()
+        auto_actions_on_the_detailed_item_page()
 
-    else:
-        if random.random() <= 0.8:
-            scroll_up_to_an_element_by_title_re(".*Similar.*", "Text")
-            scroll_down(1)
-            click_random_items_all_type()
-            auto_actions_on_the_detailed_item_page()
-        else:
-            print("Không bấm chọn items khác, tiếp tục")
-
+def scroll_up_to_element_by_title_while_not_finding_stop_element(element_title, control_type, scroll_speed, max_scroll=None, stop_element_title=None):
+    # Lặp lại cho đến khi tìm thấy phần tử hoặc đến khi scroll tối đa hoặc tìm thấy phần tử dừng
+    scrolls = 0
+    while True:
+        scrolls += 1
+        if max_scroll is not None and scrolls > max_scroll:
+            break
+        try:
+            target_element = app.top_window().child_window(title=element_title, control_type=control_type)
+            # Nếu tìm thấy phần tử dừng, thoát vòng lặp
+            if stop_element_title is not None and app.top_window().child_window(title=stop_element_title, control_type=control_type).exists():
+                break
+            return target_element
+        except:
+            pass
+        # Scroll up
+        pyautogui.scroll(scroll_speed * random.randint(100, 150))
+    return None
 
 # Kiểm tra IP
 is_session_ok = False
@@ -1368,6 +1395,18 @@ for gmail in _arr_gmail_infor:
             # Về trang chủ của ebay
             go_to_ebay_home_page()
             mouse_move_to_rad()
+
+        # Cuon chuot
+        scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
+                          (random.randint(1, 2), "up")]
+        for scroll_amount, scroll_direction in scroll_actions:
+            if scroll_direction == "down":
+                scroll_down(scroll_amount)
+            else:
+                scroll_up(scroll_amount)
+            # Randomly move the mouse with a probability of 50%
+            if random.random() < 0.8:
+                mouse_move_to_rad()
 
         # time.sleep(random.uniform(1, 3))
         # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
