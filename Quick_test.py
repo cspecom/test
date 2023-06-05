@@ -27,7 +27,6 @@ file_dir = os.path.join(dirname, 'assets\\')
 def get_pid(name):
     return check_output(["pidof", name])
 
-
 class ScreenRes(object):
     @classmethod
     def set(cls, width: object = None, height: object = None, depth: object = 32) -> object:
