@@ -1468,7 +1468,7 @@ for gmail in _arr_gmail_infor:
         auto_actions_on_the_detailed_item_page()
 
     except:
-        print("It's OK, no problem, bro")
+        print("It's OK, no problem, bro!")
         time.sleep(10)
 try:
     send_keys('%{F4}')
