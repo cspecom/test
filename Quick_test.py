@@ -16,7 +16,9 @@ from pywinauto.keyboard import send_keys
 import re
 from io import StringIO
 import contextlib
-print("Bản update 1.1.2:\n- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó\n- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo\n- Cải thiện tình trạng lỗi ko kết nối được với edge\n- Fix lỗi select option với những item nhiều hơn 20 lựa chọn\n- Fix lỗi click lời mời ứng dụng")
+print("Bản update 1.1.2:\n- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó\n- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo\n- Cải thiện tình trạng lỗi ko kết nối được với edge\n- Fix lỗi select option với những item nhiều hơn 20 lựa chọn\n- Fix lỗi click lời mời ứng dụng:\n")
+print("Bản update 1.1.3:\n- Update read google news:\n")
+
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
 # win32_py = os.path.join(dirname, 'venv\\lib\\site-packages\\tzlocal\\win32.py')
@@ -618,6 +620,34 @@ def click_random_items_all_type():
             else:
                 print(f"Click random items không thành công, di chuyển chuột đến vị trí ngẫu nhiên mới và click tiếp")
 
+def click_random_google_news():
+    # Lưu title hiện tại của cửa sổ
+    current_title = app.top_window().texts()[0]
+    attempts = 0
+    while attempts < 5:
+        rd_x = np.random.randint(int(round(width // 4)), int(round((4 * width) // 4)))
+        rd_y = np.random.randint(int(round(height // 4)), int(round((4 * height) // 4)))
+        # Di chuyển chuột đến vị trí random và click vào vị trí đó
+        move_to(rd_x, rd_y)
+        time.sleep(random.uniform(1, 2))
+        pywinauto.mouse.click(button='left', coords=(rd_x, rd_y))
+        time.sleep(2)
+
+        # Kiểm tra nếu title đã thay đổi thì đã click vào items
+        if app.top_window().texts()[0] != current_title:
+            print("Click random items thành công!")
+            time.sleep(2)
+            break
+        else:
+            # Increment the number of attempts
+            attempts += 1
+            # If we've failed to click on an item 10 times, scroll down and try again
+            if attempts == 5:
+                scroll_down(random.randint(1,3))
+                time.sleep(2)
+                attempts = 0
+            else:
+                print(f"Click random items không thành công, di chuyển chuột đến vị trí ngẫu nhiên mới và click tiếp")
 
 def click_element_by_auto_id(auto_id, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là auto_id trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
@@ -1269,32 +1299,37 @@ def auto_actions_on_the_detailed_item_page():
                                 random_action()
                             else:
                                 print("Items đã được Add to cart từ trước")
+                                print("Chuẩn bị thực hiện phiên tiếp theo")
                         except Exception as e:
                             print(f"Lỗi: {e}")
                     else:
                         print("Không Add to cart")
+                        print("Chuẩn bị thực hiện phiên tiếp theo")
                 else:
                     print("Item đã được Add to watchlist từ trước")
             except Exception as e:
                 print(f"Lỗi: {e}")
+                print("Chuẩn bị thực hiện phiên tiếp theo")
         else:
             print("Item đã được Add to watchlist từ trước")
+            print("Chuẩn bị thực hiện phiên tiếp theo")
     else:
-        #print("Không bấm chọn items khác, tiếp tục")
-        actions = [
-            lambda: scroll_up_to_an_element_by_title_re(".*Similar.*", "Text"),
-            lambda: scroll_up_to_an_element_by_title_re(".*sponsored.*", "Text"),
-            lambda: scroll_down_to_an_element_by_title_re(".*Find more.*", "Text"),
-            lambda: scroll_down_to_an_element_by_title_re(".*also viewed.*", "Text"),
-        ]
-        weights = [0.25, 0.25, 0.25, 0.25]
-        random_action = random.choices(actions, weights=weights)[0]
-        random_action()
-        # scroll_up_to_an_element_by_title_re(".*Similar.*", "Text")
-        # scroll_down(1)
-        click_random_items_all_type()
-        auto_actions_on_the_detailed_item_page()
-
+        if random.random()<0.7:
+            #print("Không bấm chọn items khác, tiếp tục")
+            actions = [
+                lambda: scroll_up_to_an_element_by_title_re(".*Similar.*", "Text"),
+                lambda: scroll_up_to_an_element_by_title_re(".*sponsored.*", "Text"),
+                lambda: scroll_down_to_an_element_by_title_re(".*Find more.*", "Text"),
+                lambda: scroll_down_to_an_element_by_title_re(".*also viewed.*", "Text"),
+            ]
+            weights = [0.25, 0.25, 0.25, 0.25]
+            random_action = random.choices(actions, weights=weights)[0]
+            print(random_action)
+            random_action()
+            click_random_items_all_type()
+            auto_actions_on_the_detailed_item_page()
+        else:
+            print("Chuẩn bị thực hiện phiên tiếp theo")
 def scroll_up_to_element_by_title_while_not_finding_stop_element(element_title, control_type, scroll_speed, max_scroll=None, stop_element_title=None):
     # Lặp lại cho đến khi tìm thấy phần tử hoặc đến khi scroll tối đa hoặc tìm thấy phần tử dừng
     scrolls = 0
@@ -1318,7 +1353,7 @@ def search_item_by_keyword(keyword=None):
     if keyword is None:
         keyword = gmail._rd_first_name
     # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
-    scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox")
+    scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox", speed=random.randint(3,6))
     time.sleep(random.uniform(1, 2))
 
     # Nhập từ khóa vào ô tìm kiếm
@@ -1418,7 +1453,7 @@ def scroll_random_actions():
                       (random.randint(1, 2), "up"), (random.randint(3, 5), "up"), (random.randint(1, 2), "down")]
 
     # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
-    selected_actions = random.sample(scroll_actions, k=random.randint(3, 6))
+    selected_actions = random.sample(scroll_actions, k=random.randint(2, 6))
     for scroll_amount, scroll_direction in selected_actions:
         if scroll_direction == "down":
             scroll_down(scroll_amount)
@@ -1428,6 +1463,41 @@ def scroll_random_actions():
         # Randomly move the mouse with a probability of 50%
         if random.random() < 0.8:
             mouse_move_to_rad()
+def read_google_news(number_of_tabs=None):
+    if number_of_tabs is None:
+        number_of_tabs = random.randint(1, 20)
+    # Vào googlenews.com
+    try:
+        app = Application(backend="uia").connect(title_re=".*Profile.*")
+        app.top_window().wait('ready', timeout=60)
+        # app.top_window().maximize()
+        time.sleep(10)
+        address_bar = app.window(title_re='.*Profile.*').child_window(auto_id="view_1020",
+                                                                      control_type="Edit")
+        address_bar.wait('ready', timeout=60)
+    except Exception as e:
+        print(f"Lỗi khi kết nối đến trình duyệt Microsoft Edge: {e}")
+        exit()
+
+    # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
+    try:
+        address_bar.set_text("news.google.com")
+        time.sleep(2)
+        send_keys("{ENTER}")
+        app.top_window().wait('ready', timeout=60)
+    except Exception as e:
+        print(f"Lỗi khi truy cập trang web: {e}")
+        exit()
+    time.sleep(random.uniform(1, 3))
+# Thao tác trong news.google.com
+    # Cuộn chuột random:
+    for _ in range(number_of_tabs):
+        scroll_random_actions()
+        click_random_google_news()
+        scroll_random_actions()
+        time.sleep(random.uniform(10,30))
+        # Đóng tab đang mở, quay về trang chủ Google News:
+        send_keys("^w", with_spaces=True)
 
 # Kiểm tra IP
 is_session_ok = False
@@ -1486,6 +1556,11 @@ time.sleep(5)
 # Khởi động trình duyệt Microsoft Edge và đợi cho tới khi cửa sổ "New tab - Profile 1" được mở ra
 Application(backend="uia").start(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 time.sleep(20)
+app = Application(backend="uia").connect(title_re=".*Profile.*")
+width, height = pyautogui.size()
+
+# read_google_news()
+# time.sleep(1000)
 
 for gmail in _arr_gmail_infor:
     try:
@@ -1549,7 +1624,7 @@ for gmail in _arr_gmail_infor:
                           (random.randint(1, 2), "up"),(random.randint(3, 5), "up"),(random.randint(1, 2), "down")]
 
         # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
-        selected_actions = random.sample(scroll_actions, k=random.randint(3,6))
+        selected_actions = random.sample(scroll_actions, k=random.randint(2,6))
         for scroll_amount, scroll_direction in selected_actions:
             if scroll_direction == "down":
                 scroll_down(scroll_amount)
@@ -1565,12 +1640,14 @@ for gmail in _arr_gmail_infor:
         # Thao tác trong trang items chi tiết:
         auto_actions_on_the_detailed_item_page()
     except:
-        if random.random()<0.3:
+        if random.random()<0.1:
             time.sleep(5)
             # Tìm kiếm sản phẩm bằng keyword
             search_item_by_keyword()
             # Thao tác trong trang items chi tiết:
             auto_actions_on_the_detailed_item_page()
+        if random.random() < 0.2:
+            read_google_news()
         else:
             print("It's OK, no problem, bro!")
             time.sleep(10)
