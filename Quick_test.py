@@ -16,7 +16,6 @@ from pywinauto.keyboard import send_keys
 import re
 from io import StringIO
 import contextlib
-
 print("Bản update 1.1.2: "
       "- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó"
       "- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo"
