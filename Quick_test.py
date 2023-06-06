@@ -203,7 +203,7 @@ def gen_infor():
     f_nouns = None
     f_profesional = None
 
-    ran_mail = randint(3, 7)
+    ran_mail = randint(2, 6)
     # 2000
     for x in range(random.randint(2,6)):
         _rd_first_name = ''
@@ -618,7 +618,7 @@ def click_random_items_all_type():
             attempts += 1
             # If we've failed to click on an item 10 times, scroll down and try again
             if attempts == 5:
-                scroll_down(1)
+                scroll_down(random.randint(1,3))
                 time.sleep(2)
                 attempts = 0
             else:
@@ -787,9 +787,10 @@ def scroll_up(num_of_scrolls, speed=random.randint(1, 3)):
 
 
 # Cuộn chuột xuống cho đến khi thấy element và đọc 10-25 giây
-def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.randint(2, 4)):
+def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.randint(2, 4), max_search_attempts=20):
     is_element_visible = False
-    while (is_element_visible == False):
+    search_attempts = 0
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(title=element_name, control_type=controltype)
@@ -802,13 +803,17 @@ def scroll_down_to_an_element_by_title(element_name, controltype, speed=random.r
         except:
             pyautogui.scroll(speed * random.randint(-150, -100))
             print(f"Try to get {element_name}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột xuống cho đến khi thấy element và đọc 10-25 giây (dùng title_re)
-def scroll_down_to_an_element_by_title_re(element_name, controltype, speed=random.randint(2, 4)):
+def scroll_down_to_an_element_by_title_re(element_name, controltype, speed=random.randint(2, 4),max_search_attempts=20):
     is_element_visible = False
     scroll_down_times = 0
-    while (is_element_visible == False):
+    search_attempts = 0
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(title_re=element_name, control_type=controltype)
@@ -821,12 +826,16 @@ def scroll_down_to_an_element_by_title_re(element_name, controltype, speed=rando
             scroll_down_times = scroll_down_times + 1
             pyautogui.scroll(speed * random.randint(-150, -100))
             print(f"Try to get {element_name}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột lên cho đến khi thấy element và đọc 10-25 giây
-def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.randint(2, 4)):
+def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.randint(2, 4),max_search_attempts=20):
     is_element_visible = False
-    while (is_element_visible == False):
+    search_attempts = 0
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(title=element_name, control_type=controltype)
@@ -838,12 +847,16 @@ def scroll_up_to_an_element_by_title(element_name, controltype, speed=random.ran
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
             print(f"Try to get {element_name}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột lên cho đến khi thấy element và đọc (dạng title_re)
-def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.randint(2, 4)):
+def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.randint(2, 4),max_search_attempts=20):
     is_element_visible = False
-    while (is_element_visible == False):
+    search_attempts = 0
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(title_re=element_name, control_type=controltype)
@@ -855,12 +868,15 @@ def scroll_up_to_an_element_by_title_re(element_name, controltype, speed=random.
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
             print(f"Try to get {element_name}")
-
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng title
-def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=randint(2, 4), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=randint(2, 4), x_offset=2, y_offset=2,max_search_attempts=20):
     is_element_visible = False
-    while (is_element_visible == False):
+    search_attempts = 0
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(title=element_name, control_type=controltype)
@@ -874,13 +890,18 @@ def scroll_down_to_element_and_click_by_title(element_name, controltype, speed=r
         except:
             pyautogui.scroll(speed * random.randint(-150, -100))
             print(f"Try to get {element_name}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng title
 def scroll_down_to_element_and_click_by_class_name(element_name, controltype, speed=randint(2, 4), x_offset=2,
-                                                   y_offset=2):
+                                                   y_offset=2, max_search_attempts=20):
     is_element_visible = False
-    while (is_element_visible == False):
+    search_attempts = 0
+
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(class_name=element_name, control_type=controltype)
@@ -896,11 +917,15 @@ def scroll_down_to_element_and_click_by_class_name(element_name, controltype, sp
         except:
             pyautogui.scroll(speed * random.randint(-150, -100))
             print(f"Try to get {element_name}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột xuống cho đến khi thấy element và click vào, tìm bằng auto_id
-def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=randint(2, 4), x_offset=2, y_offset=2):
+def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=randint(2, 4), x_offset=2, y_offset=2, max_search_attempts=20):
     is_element_visible = False
+    search_attempts = 0
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 2))
         try:
@@ -916,12 +941,16 @@ def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, speed=rand
         except:
             pyautogui.scroll(speed * random.randint(-150, -100))
             print(f"Try to get {auto_id}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {auto_id} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng Title
 def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=random.randint(2, 4), x_offset=2,
-                                            y_offset=2):
+                                            y_offset=2, max_search_attempts=20):
     is_element_visible = False
+    search_attempts = 0
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 1))
         try:
@@ -937,12 +966,16 @@ def scroll_up_to_element_and_click_by_title(element_name, controltype, speed=ran
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
             print(f"Try to get {element_name}")
+        search_attempts += 1
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng Classname
 def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, speed=random.randint(2, 4), x_offset=2,
-                                                 y_offset=2):
+                                                 y_offset=2, max_search_attempts=20):
     is_element_visible = False
+    search_attempts = 0
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 1))
         try:
@@ -958,11 +991,13 @@ def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, spee
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
             print(f"Try to get {element_name}")
-
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 # Cuộn chuột lên cho đến khi thấy element và click vào bằng auto_id
-def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, speed=random.randint(2, 4), x_offset=2, y_offset=2):
+def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, speed=random.randint(2, 4), x_offset=2, y_offset=2, max_search_attempts=20):
     is_element_visible = False
+    search_attempts = 0
     while (is_element_visible == False):
         time.sleep(random.uniform(0.1, 1))
         try:
@@ -978,7 +1013,8 @@ def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, speed=random
         except:
             pyautogui.scroll(speed * random.randint(100, 150))
             print(f"Try to get {auto_id}")
-
+    if search_attempts >= max_search_attempts:
+        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
 # Chạy Nekoray
 def nekoray_VPN_start():
@@ -1015,8 +1051,7 @@ def nekoray_VPN_start():
 def go_to_ebay_home_page():
     mouse_move_to_rad()
     time.sleep(random.uniform(1, 3))
-    scroll_up_to_element_and_click_by_title("eBay Logo", "Hyperlink")
-
+    scroll_up_to_element_and_click_by_title("eBay Logo", "Hyperlink", speed=random.randint(3,5))
 
 # Đọc ebay Help&Contact
 def read_ebay_selling_policy():
@@ -1553,5 +1588,4 @@ except:
 
 print("Completed AutoEbay run, PC will shutdown in next 30s")
 time.sleep(30)
-os.system("shutdown /s /t 30")
-
+os.system("shutdown /s /t 10")
