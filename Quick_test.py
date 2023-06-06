@@ -17,6 +17,7 @@ import re
 from io import StringIO
 import contextlib
 
+
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
 
@@ -26,6 +27,7 @@ file_dir = os.path.join(dirname, 'assets\\')
 
 def get_pid(name):
     return check_output(["pidof", name])
+
 
 class ScreenRes(object):
     @classmethod
@@ -203,7 +205,7 @@ def gen_infor():
 
     ran_mail = randint(3, 7)
     # 2000
-    for x in range(random.randint(3,7)):
+    for x in range(random.randint(2,6)):
         _rd_first_name = ''
         _rd_male_first_name = ''
         _rd_female_first_name = ''
@@ -1283,6 +1285,121 @@ def scroll_up_to_element_by_title_while_not_finding_stop_element(element_title, 
         pyautogui.scroll(scroll_speed * random.randint(100, 150))
     return None
 
+def search_item_by_keyword(keyword=None):
+    if keyword is None:
+        keyword = gmail._rd_first_name
+    # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
+    scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox")
+    time.sleep(random.uniform(1, 2))
+
+    # Nhập từ khóa vào ô tìm kiếm
+    type(keyword)
+    print(f"Nhập từ khóa {keyword} để tìm kiếm thành công ")
+
+    time.sleep(random.uniform(1, 2))
+    send_keys('{ENTER}')
+    time.sleep(random.uniform(1, 2))
+    mouse_move_to_rad()
+    time.sleep(random.uniform(3, 5))
+    # Tùy chọn cho tìm kiếm:
+    # Type of Listing:
+    Type_of_listing = app.top_window().child_window(title="Auction", control_type="Hyperlink")
+    Type_of_listing.wait('visible', timeout=30)
+    sort_selector = app.top_window().child_window(title_re="Sort selector.*", control_type="Button")
+    if sort_selector.exists():
+        # Click vào sort_selector
+        click_element_by_title_re("Sort selector.*", "Button")
+        print(f"Click sort_selector thành công")
+        # random_choice:
+        options = [2, 3, 4, 5, 6]
+        weights = [0.1, 0.1, 0.7, 0.05, 0.05]
+        choice = random.choices(options, weights=weights)[0]
+        index = choice
+        # In ra số thứ tự của phần tử thích hợp
+        print("Chọn số thứ", index, ": ", choice)
+        print(f"Giá trị được chọn là: {choice}")
+        print(f"Số thứ tự của giá trị được chọn là: {index}")
+        # Xác định tọa độ của lựa chọn:
+        # Lấy tọa độ của combobox:
+        width, height = pyautogui.size()
+        sort_selector_rect = sort_selector.rectangle()
+        sort_selector_x_left = sort_selector_rect.left
+        sort_selector_x_right = sort_selector_rect.right
+        sort_selector_y_top = sort_selector_rect.top
+        sort_selector_y_bottom = sort_selector_rect.bottom
+        # Tọa độ của List_Item được chọn
+        selected_x = random.randint(sort_selector_x_left - (sort_selector_x_right - sort_selector_x_left) + 10,
+                                    sort_selector_x_right - 5)
+        selected_y = random.randint(sort_selector_y_bottom + 15 + (index - 1) * 35 + 4,
+                                    sort_selector_y_bottom + 15 + index * 35 - 4)
+
+        print(f"Tọa độ click là: {selected_x}, {selected_y}")
+        move_to(selected_x, selected_y)
+        pywinauto.mouse.click(button='left', coords=(selected_x, selected_y))
+        print(f"Chọn giá trị cho sort_selector thành công")
+    else:
+        print("Không có option")
+
+    if Type_of_listing.exists():
+        time.sleep(3)
+        options = ["Auction", "Buy It Now"]
+        for option in options:
+            if random.random() < 0.3:
+                click_element_by_title(option, "Hyperlink")
+                time.sleep(3)
+    # Sort by:
+    if random.random() < 0.3:
+        click_element_by_title_re("Listing options selector.*", "Button")
+        Listing_options = app.top_window().child_window(title_re="Listing options selector.*", control_type="Button")
+
+        width, height = pyautogui.size()
+        Listing_options_rect = Listing_options.rectangle()
+        Listing_options_x_left = Listing_options_rect.left
+        Listing_options_x_right = Listing_options_rect.right
+        Listing_options_y_top = Listing_options_rect.top
+        Listing_options_y_bottom = Listing_options_rect.bottom
+        # Tọa độ của List_Item được chọn
+        selected_x = random.randint(Listing_options_x_left - 30 + 5, Listing_options_x_right - 5)
+        selected_y = random.randint(Listing_options_y_bottom + 5 + 5, Listing_options_y_bottom + 5 + 35 - 5)
+        move_to(selected_x, selected_y)
+        pywinauto.mouse.click(button='left', coords=(selected_x, selected_y))
+        print(f"Chọn Listing_options thành công")
+        time.sleep(10)
+
+    # Cuon chuot
+    scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
+                      (random.randint(1, 2), "up")]
+    for scroll_amount, scroll_direction in scroll_actions:
+        if scroll_direction == "down":
+            scroll_down(scroll_amount)
+        else:
+            scroll_up(scroll_amount)
+        # Randomly move the mouse with a probability of 50%
+        if random.random() < 0.7:
+            mouse_move_to_rad()
+
+    # Click vào 1 items random trong danh sách tìm kiếm
+    click_random_items_all_type()
+    time.sleep(3)
+    mouse_move_to_rad()
+
+    # Cuon chuot
+def scroll_random_actions():
+    scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
+                      (random.randint(1, 2), "up"), (random.randint(3, 5), "up"), (random.randint(1, 2), "down")]
+
+    # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
+    selected_actions = random.sample(scroll_actions, k=random.randint(3, 6))
+    for scroll_amount, scroll_direction in selected_actions:
+        if scroll_direction == "down":
+            scroll_down(scroll_amount)
+        else:
+            scroll_up(scroll_amount)
+
+        # Randomly move the mouse with a probability of 50%
+        if random.random() < 0.8:
+            mouse_move_to_rad()
+
 # Kiểm tra IP
 is_session_ok = False
 while not is_session_ok:
@@ -1364,7 +1481,7 @@ for gmail in _arr_gmail_infor:
         except Exception as e:
             print(f"Lỗi khi truy cập trang web: {e}")
             exit()
-        time.sleep(2)
+        time.sleep(random.uniform(1,3))
         # Tìm lời mời tải ứng dụng ebay, nếu có click vào nút close để đóng!
         app_count = 0
         app_button_visible = False
@@ -1377,9 +1494,12 @@ for gmail in _arr_gmail_infor:
                     app_button_visible = True
                     click_element_by_title("Dismiss this dialog", "Button")
                     print("Đóng lời mời tải ứng dụng ebay thành công!")
+                else:
+                    print(f"Kiểm tra lại xuất hiện của lời mời tải ứng dụng Ebay lần thứ {app_count + 1}")
+                    time.sleep(3)
             except:
                 print(f"Kiểm tra lại xuất hiện của lời mời tải ứng dụng Ebay lần thứ {app_count + 1}")
-                time.sleep(2)
+                time.sleep(3)
             app_count = app_count + 1
             if app_count == 3:
                 print(f"Không có lời mời tải ứng dụng Ebay sau {app_count} lần kiểm tra")
@@ -1397,131 +1517,39 @@ for gmail in _arr_gmail_infor:
 
         # Cuon chuot
         scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
-                          (random.randint(1, 2), "up")]
-        for scroll_amount, scroll_direction in scroll_actions:
+                          (random.randint(1, 2), "up"),(random.randint(3, 5), "up"),(random.randint(1, 2), "down")]
+
+        # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
+        selected_actions = random.sample(scroll_actions, k=random.randint(3,6))
+        for scroll_amount, scroll_direction in selected_actions:
             if scroll_direction == "down":
                 scroll_down(scroll_amount)
             else:
                 scroll_up(scroll_amount)
+
             # Randomly move the mouse with a probability of 50%
             if random.random() < 0.8:
                 mouse_move_to_rad()
 
-        # time.sleep(random.uniform(1, 3))
-        # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
-        scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox")
-        time.sleep(random.uniform(1, 2))
-
-        # Nhập từ khóa vào ô tìm kiếm
-        type(gmail._rd_first_name)
-        print(f"Nhập từ khóa {gmail._rd_first_name} để tìm kiếm thành công ")
-
-        time.sleep(random.uniform(1, 2))
-        send_keys('{ENTER}')
-        time.sleep(random.uniform(1, 2))
-        mouse_move_to_rad()
-        time.sleep(random.uniform(3, 5))
-
-        # Tùy chọn cho tìm kiếm:
-        # Type of Listing:
-        Type_of_listing = app.top_window().child_window(title="Auction", control_type="Hyperlink")
-        Type_of_listing.wait('visible', timeout=30)
-        sort_selector = app.top_window().child_window(title_re="Sort selector.*", control_type="Button")
-        if sort_selector.exists():
-            # Click vào sort_selector
-            click_element_by_title_re("Sort selector.*", "Button")
-            print(f"Click sort_selector thành công")
-            # random_choice:
-            options = [2, 3, 4, 5, 6]
-            weights = [0.1, 0.1, 0.7, 0.05, 0.05]
-            choice = random.choices(options, weights=weights)[0]
-            index = choice
-            # In ra số thứ tự của phần tử thích hợp
-            print("Chọn số thứ", index, ": ", choice)
-            print(f"Giá trị được chọn là: {choice}")
-            print(f"Số thứ tự của giá trị được chọn là: {index}")
-            # Xác định tọa độ của lựa chọn:
-            # Lấy tọa độ của combobox:
-            width, height = pyautogui.size()
-            sort_selector_rect = sort_selector.rectangle()
-            sort_selector_x_left = sort_selector_rect.left
-            sort_selector_x_right = sort_selector_rect.right
-            sort_selector_y_top = sort_selector_rect.top
-            sort_selector_y_bottom = sort_selector_rect.bottom
-            # Tọa độ của List_Item được chọn
-            selected_x = random.randint(sort_selector_x_left - (sort_selector_x_right-sort_selector_x_left)+10, sort_selector_x_right - 5)
-            selected_y = random.randint(sort_selector_y_bottom + 15 + (index - 1) * 35 + 4,
-                                             sort_selector_y_bottom + 15 + index * 35 - 4)
-
-            print(f"Tọa độ click là: {selected_x}, {selected_y}")
-            move_to(selected_x, selected_y)
-            pywinauto.mouse.click(button='left', coords=(selected_x, selected_y))
-            print(f"Chọn giá trị cho sort_selector thành công")
-        else:
-            print("Không có option")
-
-        if Type_of_listing.exists():
-            time.sleep(3)
-            options = ["Auction", "Buy It Now"]
-            for option in options:
-                if random.random() < 0.3:
-                    click_element_by_title(option, "Hyperlink")
-                    time.sleep(3)
-        # Sort by:
-        if random.random() < 0.3:
-            click_element_by_title_re("Listing options selector.*", "Button")
-            Listing_options = app.top_window().child_window(title_re="Listing options selector.*", control_type="Button")
-
-            width, height = pyautogui.size()
-            Listing_options_rect = Listing_options.rectangle()
-            Listing_options_x_left = Listing_options_rect.left
-            Listing_options_x_right = Listing_options_rect.right
-            Listing_options_y_top = Listing_options_rect.top
-            Listing_options_y_bottom = Listing_options_rect.bottom
-            # Tọa độ của List_Item được chọn
-            selected_x = random.randint(Listing_options_x_left - 30 + 5 , Listing_options_x_right - 5)
-            selected_y = random.randint(Listing_options_y_bottom + 5 + 5, Listing_options_y_bottom + 5 + 35 - 5)
-            move_to(selected_x, selected_y)
-            pywinauto.mouse.click(button='left', coords=(selected_x, selected_y))
-            print(f"Chọn Listing_options thành công")
-            time.sleep(10)
-
-        # Cuon chuot
-        scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
-                          (random.randint(1, 2), "up")]
-        for scroll_amount, scroll_direction in scroll_actions:
-            if scroll_direction == "down":
-                scroll_down(scroll_amount)
-            else:
-                scroll_up(scroll_amount)
-            # Randomly move the mouse with a probability of 50%
-            if random.random() < 0.7:
-                mouse_move_to_rad()
-
-        # Click vào 1 items random trong danh sách tìm kiếm
-        click_random_items_all_type()
-        time.sleep(3)
-        mouse_move_to_rad()
+        # Tìm kiếm sản phẩm bằng keyword
+        search_item_by_keyword()
         # Thao tác trong trang items chi tiết:
         auto_actions_on_the_detailed_item_page()
-
     except:
-        print("It's OK, no problem, bro!")
-        time.sleep(10)
-try:
-    send_keys('%{F4}')
-except:
-    app.window(best_match='Profile 1 - Microsoftâ€‹ Edge').CloseButton1.click()
+        if random.random()<0.3:
+            time.sleep(5)
+            # Tìm kiếm sản phẩm bằng keyword
+            search_item_by_keyword()
+            # Thao tác trong trang items chi tiết:
+            auto_actions_on_the_detailed_item_page()
+        else:
+            print("It's OK, no problem, bro!")
+            time.sleep(10)
 
 try:
     send_keys('%{F4}')
 except:
-    app.window(best_match='Profile 1 - Microsoftâ€‹ Edge').CloseButton1.click()
-
-try:
-    send_keys('%{F4}')
-except:
-    app.window(best_match='Profile 1 - Microsoftâ€‹ Edge').CloseButton1.click()
+    app.window(best_match='Profile 1 - Microsoft Edge').CloseButton1.click()
 
 print("Completed AutoEbay run, PC will shutdown in next 30s")
 time.sleep(30)
