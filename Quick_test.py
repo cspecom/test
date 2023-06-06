@@ -1364,7 +1364,7 @@ for gmail in _arr_gmail_infor:
         except Exception as e:
             print(f"Lỗi khi truy cập trang web: {e}")
             exit()
-
+        time.sleep(2)
         # Tìm lời mời tải ứng dụng ebay, nếu có click vào nút close để đóng!
         app_count = 0
         app_button_visible = False
@@ -1379,7 +1379,7 @@ for gmail in _arr_gmail_infor:
                     print("Đóng lời mời tải ứng dụng ebay thành công!")
             except:
                 print(f"Kiểm tra lại xuất hiện của lời mời tải ứng dụng Ebay lần thứ {app_count + 1}")
-                time.sleep(1)
+                time.sleep(2)
             app_count = app_count + 1
             if app_count == 3:
                 print(f"Không có lời mời tải ứng dụng Ebay sau {app_count} lần kiểm tra")
