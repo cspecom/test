@@ -17,12 +17,12 @@ import re
 from io import StringIO
 import contextlib
 
-print("Bản update 1.1.2: 
-- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó
-- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo
-- Cải thiện tình trạng lỗi ko kết nối được với edge
-- Fix lỗi select option với những item nhiều hơn 20 lựa chọn
-- Fix lỗi click lời mời ứng dụng")
+print("Bản update 1.1.2: "
+      "- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó"
+      "- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo"
+      "- Cải thiện tình trạng lỗi ko kết nối được với edge"
+      "- Fix lỗi select option với những item nhiều hơn 20 lựa chọn"
+      "- Fix lỗi click lời mời ứng dụng")
 
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
