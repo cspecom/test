@@ -17,7 +17,7 @@ import re
 from io import StringIO
 import contextlib
 print("Bản update 1.1.2:\n- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó\n- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo\n- Cải thiện tình trạng lỗi ko kết nối được với edge\n- Fix lỗi select option với những item nhiều hơn 20 lựa chọn\n- Fix lỗi click lời mời ứng dụng:\n")
-print("Bản update 1.1.3:\n- Update read google news:\n")
+print("Bản update 1.1.3:\n- Update read google news:\n -Fix crash bugs:\n")
 
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
@@ -199,7 +199,7 @@ def gen_infor():
     f_nouns = None
     f_profesional = None
 
-    ran_mail = randint(2, 6)
+    ran_mail = randint(1, 4)
     # 2000
     for x in range(random.randint(2,6)):
         _rd_first_name = ''
@@ -595,8 +595,8 @@ def click_random_items_all_type():
             rd_x = np.random.randint(int(round(width // 4)), int(round(width // 2)))
             rd_y = np.random.randint(int(round(height // 4)), int(round((4 * height) // 5)))
         else:
-            rd_x = np.random.randint(int(round(width // 4)), int(round((4 * width) // 4)))
-            rd_y = np.random.randint(int(round(height // 4)), int(round((4 * height) // 4)))
+            rd_x = np.random.randint(int(round(width // 4)), int(round((5 * width) // 6)))
+            rd_y = np.random.randint(int(round(height // 4)), int(round((5 * height) // 6)))
 
         # Di chuyển chuột đến vị trí random và click vào vị trí đó
         move_to(rd_x, rd_y)
@@ -625,8 +625,8 @@ def click_random_google_news():
     current_title = app.top_window().texts()[0]
     attempts = 0
     while attempts < 5:
-        rd_x = np.random.randint(int(round(width // 4)), int(round((4 * width) // 4)))
-        rd_y = np.random.randint(int(round(height // 4)), int(round((4 * height) // 4)))
+        rd_x = np.random.randint(int(round(width // 4)), int(round((5 * width) // 6)))
+        rd_y = np.random.randint(int(round(height // 4)), int(round((5 * height) // 6)))
         # Di chuyển chuột đến vị trí random và click vào vị trí đó
         move_to(rd_x, rd_y)
         time.sleep(random.uniform(1, 2))
@@ -643,7 +643,7 @@ def click_random_google_news():
             attempts += 1
             # If we've failed to click on an item 10 times, scroll down and try again
             if attempts == 5:
-                scroll_down(random.randint(1,3))
+                scroll_random_actions()
                 time.sleep(2)
                 attempts = 0
             else:
@@ -1448,24 +1448,25 @@ def search_item_by_keyword(keyword=None):
     mouse_move_to_rad()
 
     # Cuon chuot
-def scroll_random_actions():
+def scroll_random_actions(time_sleep=0.1):
     scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
                       (random.randint(1, 2), "up"), (random.randint(3, 5), "up"), (random.randint(1, 2), "down")]
 
     # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
-    selected_actions = random.sample(scroll_actions, k=random.randint(2, 6))
+    selected_actions = random.sample(scroll_actions, k=random.randint(1, 6))
     for scroll_amount, scroll_direction in selected_actions:
         if scroll_direction == "down":
             scroll_down(scroll_amount)
+            time.sleep(time_sleep)
         else:
             scroll_up(scroll_amount)
-
+            time.sleep(time_sleep)
         # Randomly move the mouse with a probability of 50%
-        if random.random() < 0.8:
+        if random.random() < 0.7:
             mouse_move_to_rad()
 def read_google_news(number_of_tabs=None):
     if number_of_tabs is None:
-        number_of_tabs = random.randint(1, 20)
+        number_of_tabs = random.randint(1, 15)
     # Vào googlenews.com
     try:
         app = Application(backend="uia").connect(title_re=".*Profile.*")
@@ -1494,10 +1495,12 @@ def read_google_news(number_of_tabs=None):
     for _ in range(number_of_tabs):
         scroll_random_actions()
         click_random_google_news()
-        scroll_random_actions()
+        scroll_random_actions(random.uniform(5,10))
         time.sleep(random.uniform(10,30))
         # Đóng tab đang mở, quay về trang chủ Google News:
-        send_keys("^w", with_spaces=True)
+        # send_keys("^w", with_spaces=True)
+        send_keys("^w")
+        time.sleep(random.uniform(3,5))
 
 # Kiểm tra IP
 is_session_ok = False
@@ -1632,13 +1635,16 @@ for gmail in _arr_gmail_infor:
                 scroll_up(scroll_amount)
 
             # Randomly move the mouse with a probability of 50%
-            if random.random() < 0.8:
+            if random.random() < 0.7:
                 mouse_move_to_rad()
 
         # Tìm kiếm sản phẩm bằng keyword
         search_item_by_keyword()
         # Thao tác trong trang items chi tiết:
         auto_actions_on_the_detailed_item_page()
+        if random.random() < 0.1:
+            read_google_news()
+
     except:
         if random.random()<0.1:
             time.sleep(5)
@@ -1652,8 +1658,13 @@ for gmail in _arr_gmail_infor:
             print("It's OK, no problem, bro!")
             time.sleep(10)
 
+        print("Okay, next try!")
+
 try:
+    time.sleep(3)
     send_keys('%{F4}')
+    time.sleep(3)
+
 except:
     app.window(best_match='Profile 1 - Microsoft Edge').CloseButton1.click()
 
