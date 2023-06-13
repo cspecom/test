@@ -1657,6 +1657,7 @@ def read_google_news(number_of_tabs=None):
         time.sleep(random.uniform(10,30))
         # Đóng tab đang mở, quay về trang chủ Google News:
         click_current_close_tab()
+        mouse_move_to_rad()
         time.sleep(random.uniform(3,5))
     read_google_news_has_run = True
 
