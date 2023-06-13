@@ -1462,7 +1462,7 @@ def auto_actions_on_the_detailed_item_page():
             print("Item đã được Add to watchlist từ trước")
             print("Chuẩn bị thực hiện phiên tiếp theo")
     else:
-        if random.random()<0.9:
+        if random.random()<0.6:
             #print("Không bấm chọn items khác, tiếp tục")
             actions = [
                 lambda: scroll_up_to_an_element_by_title_re(".*Similar.*", "Text"),
@@ -1470,7 +1470,7 @@ def auto_actions_on_the_detailed_item_page():
                 lambda: scroll_down_to_an_element_by_title_re(".*Find more.*", "Text"),
                 lambda: scroll_down_to_an_element_by_title_re(".*also viewed.*", "Text"),
             ]
-            weights = [0.25, 0.25, 0.25, 0.25]
+            weights = [0.4, 0.3, 0.2, 0.1]
             random_action = random.choices(actions, weights=weights)[0]
             print(random_action)
             random_action()
