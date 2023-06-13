@@ -1580,7 +1580,7 @@ def search_item_by_keyword(keyword=None):
         time.sleep(10)
 
     # Cuon chuot
-    if random.random()<0.4:
+    if random.random()<0.2:
         scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
                           (random.randint(1, 2), "up")]
         for scroll_amount, scroll_direction in scroll_actions:
