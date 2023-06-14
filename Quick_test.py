@@ -18,9 +18,9 @@ from io import StringIO
 import contextlib
 import mouse
 print("V1.1.2:\n- Fix lỗi không tìm thấy Add to watchlist do item đã cho vào watchlist trước đó\n- Giới hạn vòng lặp cho quá trình tìm kiếm, click element, nếu tìm không thấy sau x lần tự động bỏ qua để về trang chủ hoặc khởi động phiên tiếp theo\n- Cải thiện tình trạng lỗi ko kết nối được với edge\n- Fix lỗi select option với những item nhiều hơn 20 lựa chọn\n- Fix lỗi click lời mời ứng dụng:\n")
-print("V1.1.3:\n- Update read google news:\n -Fix crash bugs:\n")
+print("V1.1.3:\n- Update read google news:\n- Fix crash bugs:\n")
 print("V1.1.4:\n- New scroll method\n- Click random item trong trang search chỉ 1 lần ngẫu nhiên, Kiểm tra mở link mới hay chưa\n- Click random item trong trang item details 1 lần ngẫu nhiên, Kiểm tra mở link mới hay chưa\n- Click vào link google news ngẫu nhiên 1 lần, kiểm tra đã mở link hay chưa\n- Fix lỗi crash file Run\n- Close tab bằng close tab button\n- Phóng to edge bằng maximize button\n- Thiết lập chạy read google news 1 lần duy nhất trong phiên\n- Fix lỗi không close app button\n")
-
+print("V1.1.5:\n- Fix read goole news\n- Tắt hộp thoại Edge Restore Sections nếu có\n- Fix tính năng full screen\n- Fix lỗi close edge không mong muốn\n")
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
 # win32_py = os.path.join(dirname, 'venv\\lib\\site-packages\\tzlocal\\win32.py')
@@ -1342,12 +1342,14 @@ def auto_actions_on_the_detailed_item_page():
     scroll_down_to_an_element_by_title("About this item", "Button")
     time.sleep(2)
     if random.random() < 0.05:
-        scroll_up(0.5)
+        # scroll_up(0.5)
         mouse_move_to_rad()
         click_element_by_title("Shipping, returns & payments", "Button")
     print("Không bấm vào Shipping detail, tiếp tục")
+    if random.random()<0.7:
+        scroll_down(num_of_scrolls=random.randint(1,3))
 
-    if random.random() <= 0.1:
+    if random.random() <= 0.15:
         target_element = scroll_up_to_element_by_title_while_not_finding_stop_element("Add to watchlist", "Button",
                                                                                       random.randint(2, 4), 15,
                                                                                       "Watching")
@@ -1403,8 +1405,8 @@ def auto_actions_on_the_detailed_item_page():
             actions = [
                 lambda: scroll_up_to_an_element_by_title_re(".*Similar.*", "Text"),
                 lambda: scroll_up_to_an_element_by_title_re(".*sponsored.*", "Text"),
-                lambda: scroll_down_to_an_element_by_title_re(".*Find more.*", "Text"),
-                lambda: scroll_down_to_an_element_by_title_re(".*also viewed.*", "Text"),
+                lambda: scroll_down_to_an_element_by_title_re(".*Find more.*", "Text", scroll_speed=random.randint(3,6)),
+                lambda: scroll_down_to_an_element_by_title_re(".*also viewed.*", "Text", scroll_speed=random.randint(3,6)),
             ]
             weights = [0.4, 0.3, 0.2, 0.1]
             random_action = random.choices(actions, weights=weights)[0]
@@ -1540,8 +1542,8 @@ def search_item_by_keyword(keyword=None):
 
     # Cuon chuot
 def scroll_random_actions(time_sleep=0.1):
-    scroll_actions = [(random.randint(2, 4), "down"), (random.randint(1, 2), "up"), (random.randint(3, 5), "down"),
-                      (random.randint(1, 2), "up"), (random.randint(3, 5), "up"), (random.randint(1, 2), "down")]
+    scroll_actions = [(random.randint(2, 4), "down"), (random.randint(2, 4), "down"), (random.randint(3, 5), "down"),
+                      (random.randint(1, 2), "up"), (random.randint(2, 4), "up"), (random.randint(1, 2), "down")]
 
     # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
     selected_actions = random.sample(scroll_actions, k=random.randint(1, 6))
@@ -1574,9 +1576,11 @@ def read_google_news(number_of_tabs=None):
     # Vào googlenews.com
     try:
         app = Application(backend="uia").connect(title_re=".*Profile.*")
-        app.top_window().wait('ready', timeout=60)
-        # app.top_window().maximize()
-        time.sleep(10)
+        app.top_window().child_window(auto_id="view_28", control_type="Button").wait('ready', timeout=60)
+        click_element_by_auto_id("view_28", "Button")
+        time.sleep(random.randint(1,2))
+        mouse_move_to_rad()
+        time.sleep(random.randint(0,2))
         address_bar = app.window(title_re='.*Profile.*').child_window(auto_id="view_1020",
                                                                       control_type="Edit")
         address_bar.wait('ready', timeout=60)
@@ -1587,13 +1591,16 @@ def read_google_news(number_of_tabs=None):
     # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
     try:
         address_bar.set_text("news.google.com")
-        time.sleep(random.uniform(10,15))
+        time.sleep(random.uniform(0,2))
         send_keys("{ENTER}")
+        time.sleep(random.uniform(0,2))
+        mouse_move_to_rad()
+        time.sleep(random.uniform(7,15))
         app.top_window().wait('ready', timeout=60)
     except Exception as e:
         print(f"Lỗi khi truy cập trang web: {e}")
         exit()
-    time.sleep(random.uniform(1, 3))
+    time.sleep(random.uniform(1, 2))
 # Thao tác trong news.google.com
     for _ in range(number_of_tabs):
         # Cuộn chuột từ trên xuống dưới:
@@ -1603,11 +1610,38 @@ def read_google_news(number_of_tabs=None):
         scroll_random_actions(random.uniform(10,20))
         time.sleep(random.uniform(10,30))
         # Đóng tab đang mở, quay về trang chủ Google News:
-        if app.top_window().child_window(title="Google News", control_type="Hyperlink").exists() or app.top_window().child_window(title="eBay Logo", control_type="Hyperlink").exists():
+        if app.top_window().child_window(title="Google News", control_type="Hyperlink").exists():
             print("Đang ở trang chủ Google news or eBay, không close tab")
         else:
-            click_current_close_tab()
-            mouse_move_to_rad()
+            if app.top_window().child_window(title="eBay Logo", control_type="Hyperlink").exists():
+                print("Đang ở trang chủ eBay, mở lại news.google.com, không close tab")
+                try:
+                    app = Application(backend="uia").connect(title_re=".*Profile.*")
+                    app.top_window().child_window(auto_id="view_28", control_type="Button").wait('ready', timeout=60)
+                    click_element_by_auto_id("view_28","Button")
+                    time.sleep(5)
+                    mouse_move_to_rad()
+                    time.sleep(5)
+                    address_bar = app.window(title_re='.*Profile.*').child_window(auto_id="view_1020",
+                                                                                  control_type="Edit")
+                    address_bar.wait('ready', timeout=60)
+                except Exception as e:
+                    print(f"Lỗi khi kết nối đến trình duyệt Microsoft Edge: {e}")
+                    exit()
+
+                # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
+                try:
+                    address_bar.set_text("news.google.com")
+                    time.sleep(random.uniform(1, 3))
+                    send_keys("{ENTER}")
+                    time.sleep(random.uniform(10, 15))
+                    app.top_window().wait('ready', timeout=60)
+                except Exception as e:
+                    print(f"Lỗi khi truy cập trang web: {e}")
+                    # exit()
+            else:
+                click_current_close_tab()
+                mouse_move_to_rad()
         time.sleep(random.uniform(3,5))
     read_google_news_has_run = True
 
@@ -1769,6 +1803,7 @@ width, height = pyautogui.size()
 read_google_news_has_run = False
 for gmail in _arr_gmail_infor:
     try:
+        # read_google_news()
         # Kiểm tra nếu title là ebay thì giữ nguyên, nếu không phải về ebay.com
         process_to_ebay_or_keep_the_tab()
         # Tìm kiếm sản phẩm bằng keyword
