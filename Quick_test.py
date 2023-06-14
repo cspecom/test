@@ -1659,13 +1659,13 @@ def process_to_ebay_or_keep_the_tab():
 
         # Đọc Ebay Seller Policy, xác suất là 10%
         time.sleep(random.uniform(2, 3))
-        if random.random() <= 0.01:
+        if random.random() <= 0.1:
             read_ebay_selling_policy()
             # Về trang chủ của ebay
             go_to_ebay_home_page()
             mouse_move_to_rad()
 
-        if random.random() <= 0.01:
+        if random.random() <= 0.15:
             # Cuon chuot ngau nhien
             scroll_actions = [(random.randint(1, 2), "up"),(random.randint(1, 2), "up"),(random.randint(3, 5), "up"),
                               (random.randint(3, 5), "down"),(random.randint(2, 4), "down"), (random.randint(1, 2), "down")]
