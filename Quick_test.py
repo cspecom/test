@@ -1049,7 +1049,7 @@ def scroll_down_to_element_and_click_by_class_name(element_name, controltype, sc
 def scroll_down_to_element_and_click_by_auto_id(auto_id, controltype, scroll_speed=randint(2, 4), x_offset=2, y_offset=2, max_search_attempts=10):
     is_element_visible = False
     search_attempts = 0
-    while (is_element_visible == False):
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 2))
         try:
             target_element = app.top_window().child_window(title=auto_id, control_type=controltype)
@@ -1074,7 +1074,7 @@ def scroll_up_to_element_and_click_by_title(element_name, controltype, scroll_sp
                                             y_offset=2, max_search_attempts=10):
     is_element_visible = False
     search_attempts = 0
-    while (is_element_visible == False):
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 1))
         try:
             target_element = app.top_window().child_window(title=element_name, control_type=controltype)
@@ -1099,7 +1099,7 @@ def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, scro
                                                  y_offset=2, max_search_attempts=10):
     is_element_visible = False
     search_attempts = 0
-    while (is_element_visible == False):
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 1))
         try:
             target_element = app.top_window().child_window(class_name=element_name, control_type=controltype)
@@ -1121,7 +1121,7 @@ def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, scro
 def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, scroll_speed=random.randint(2, 4), x_offset=2, y_offset=2, max_search_attempts=10):
     is_element_visible = False
     search_attempts = 0
-    while (is_element_visible == False):
+    while (is_element_visible == False) and search_attempts < max_search_attempts:
         time.sleep(random.uniform(0.1, 1))
         try:
             target_element = app.top_window().child_window(auto_id=auto_id, control_type=controltype)
