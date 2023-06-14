@@ -45,14 +45,6 @@ class ScreenRes(object):
         elif sys.platform.startswith('darwin'):
             cls._osx_set(width, height, depth)
 
-    @classmethod
-    def get(cls):
-        if sys.platform == 'win32':
-            return cls._win32_get()
-        elif sys.platform.startswith('linux'):
-            return cls._linux_get()
-        elif sys.platform.startswith('darwin'):
-            return cls._osx_get()
 
     @classmethod
     def get_modes(cls):
@@ -1341,13 +1333,13 @@ def auto_actions_on_the_detailed_item_page():
     time.sleep(random.uniform(0.1, 1))
     scroll_down_to_an_element_by_title("About this item", "Button")
     time.sleep(2)
-    if random.random() < 0.05:
+    if random.random() < 0.1:
         # scroll_up(0.5)
         mouse_move_to_rad()
         click_element_by_title("Shipping, returns & payments", "Button")
     print("Không bấm vào Shipping detail, tiếp tục")
-    if random.random()<0.7:
-        scroll_down(num_of_scrolls=random.randint(1,3))
+    if random.random()<0.8:
+        scroll_down(num_of_scrolls=random.randint(1,4))
 
     if random.random() <= 0.15:
         target_element = scroll_up_to_element_by_title_while_not_finding_stop_element("Add to watchlist", "Button",
