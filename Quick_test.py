@@ -200,7 +200,7 @@ def gen_infor():
 
     ran_mail = randint(1, 4)
     # 2000
-    for x in range(random.randint(30,30)):
+    for x in range(random.randint(1,6)):
         _rd_first_name = ''
         _rd_male_first_name = ''
         _rd_female_first_name = ''
