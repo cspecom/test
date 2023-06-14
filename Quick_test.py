@@ -1603,8 +1603,8 @@ def read_google_news(number_of_tabs=None):
         scroll_random_actions(random.uniform(10,20))
         time.sleep(random.uniform(10,30))
         # Đóng tab đang mở, quay về trang chủ Google News:
-        if app.top_window().child_window(title="Google News", control_type="Hyperlink").exists():
-            print("Đang ở trang chủ Google news, không close tab")
+        if app.top_window().child_window(title="Google News", control_type="Hyperlink").exists() or app.top_window().child_window(title="eBay Logo", control_type="Hyperlink").exists():
+            print("Đang ở trang chủ Google news or eBay, không close tab")
         else:
             click_current_close_tab()
             mouse_move_to_rad()
