@@ -200,7 +200,7 @@ def gen_infor():
 
     ran_mail = randint(1, 4)
     # 2000
-    for x in range(random.randint(1,6)):
+    for x in range(random.randint(1,5)):
         _rd_first_name = ''
         _rd_male_first_name = ''
         _rd_female_first_name = ''
@@ -667,7 +667,6 @@ def click_element_by_title(element_name, controltype, x_offset=2, y_offset=2):
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(1, 3))
 
-
 def click_element_by_title_re(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
     element = app.top_window().child_window(title_re=element_name, control_type=controltype)
@@ -697,7 +696,6 @@ def click_element_by_title_re(element_name, controltype, x_offset=2, y_offset=2)
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(1, 3))
 
-
 def click_element_by_classname(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
     element = app.top_window().child_window(class_name=element_name, control_type=controltype)
@@ -725,7 +723,6 @@ def click_element_by_classname(element_name, controltype, x_offset=2, y_offset=2
 
     # Dừng chương trình một thời gian ngẫu nhiên từ 1 đến 3 giây để đợi cho phần tử được load hoàn tất.
     time.sleep(random.uniform(2, 4))
-
 
 def click_element_by_classname_re(element_name, controltype, x_offset=2, y_offset=2):
     # Tìm phần tử có tên là element_name trong cửa sổ hiện tại của ứng dụng Windows, tìm bằng title.
@@ -775,7 +772,8 @@ def find_elements_with_classname_contains(classname_contains):
         print(f"Lỗi xảy ra khi tìm các phần tử: {e}")
         return None
 
-def click_random_element_with_classname_contains(classname_contains, controltype, x_offset=2, y_offset=2):
+def click_random_element_with_classname_contains(classname_contains, controltype, x_offset=2,
+                                                                         y_offset=2):
     try:
         num_scrolls = 0
         should_exit = False  # Biến kiểm soát để thoát khỏi vòng lặp
@@ -797,7 +795,6 @@ def click_random_element_with_classname_contains(classname_contains, controltype
                                 unique_titles.append(title)
                         else:
                             print(f"Title {title} đã xuất hiện trước đó.")
-
                     while len(unique_titles) > 0 and not should_exit:
                         random_element = random.choice(elements)
                         element_title = random_element.window_text()
@@ -817,6 +814,8 @@ def click_random_element_with_classname_contains(classname_contains, controltype
                         return None
                     else:
                         print(f"Không tìm thấy phần tử có classname chứa {classname_contains}.")
+                        should_exit = True  # Thoát khỏi vòng lặp hiện tại
+                        break
                 time.sleep(1)
                 scroll_down(1)
                 num_scrolls += 1
@@ -1006,12 +1005,12 @@ def scroll_down_to_element_and_click_by_title(element_name, controltype, scroll_
             if target_element.is_visible():
                 is_element_visible = True
                 mouse_move_to_rad()
-                scroll_up(1,-random.randint(1,3))
+                scroll_down(1,random.randint(1,3))
                 time.sleep(random.uniform(1, 5))
                 click_element_by_title(element_name, controltype, x_offset, y_offset)
             break
         except:
-            scroll_up(1, -scroll_speed)
+            scroll_down(1, scroll_speed)
             print(f"Try to get {element_name}")
         search_attempts += 1
     if search_attempts >= max_search_attempts:
@@ -1031,14 +1030,14 @@ def scroll_down_to_element_and_click_by_class_name(element_name, controltype, sc
             if target_element.is_visible():
                 is_element_visible = True
                 mouse_move_to_rad()
-                scroll_up(1, -random.randint(1,3))
+                scroll_down(1, random.randint(1,3))
                 time.sleep(random.uniform(1, 5))
                 click_element_by_classname(element_name, controltype, x_offset, y_offset)
                 print(f"Click vào {element_name} thành công!")
                 time.sleep(1)
             break
         except:
-            scroll_up(1, -scroll_speed)
+            scroll_down(1, scroll_speed)
             print(f"Try to get {element_name}")
         search_attempts += 1
     if search_attempts >= max_search_attempts:
@@ -1114,6 +1113,7 @@ def scroll_up_to_element_and_click_by_Class_name(element_name, controltype, scro
         except:
             scroll_up(1, scroll_speed)
             print(f"Try to get {element_name}")
+        search_attempts += 1
     if search_attempts >= max_search_attempts:
         print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
 
@@ -1136,8 +1136,9 @@ def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, scroll_speed
         except:
             scroll_up(1, scroll_speed)
             print(f"Try to get {auto_id}")
+        search_attempts += 1
     if search_attempts >= max_search_attempts:
-        print(f"Không tìm thấy phần tử {element_name} sau {max_search_attempts} lần tìm kiếm")
+        print(f"Không tìm thấy phần tử {auto_id} sau {max_search_attempts} lần tìm kiếm")
 
 def find_element_with_max_right_x_by_autoID(autoid, controltype):
     elements = app.top_window().child_window(auto_id=autoid, control_type=controltype).children()
@@ -1294,71 +1295,6 @@ def choose_random_item_option(auto_ID="x-msku__select-box-1000", control_type="C
     else:
         print("Không có option")
 
-
-# # Sort item search by random:
-# def sort_selector():
-#     sort_selector= app.top_window().child_window(title_re="Sort selector.*", control_type ="Button")
-#     if sort_selector.exists():
-#         # Click vào sort_selector
-#         click_element_by_title_re("Sort selector.*", "Button")
-#         print(f"Click sort_selector thành công")
-#         sort_selector.print_control_identifiers()
-#         # time.sleep(random.uniform(1, 2))
-#         with contextlib.redirect_stdout(StringIO()) as f:
-#             sort_selector.print_control_identifiers()
-#             identifiers_str = f.getvalue()
-#
-#         print(identifiers_str)
-#         pattern = r'title="([^"]*)"[\s\S]*?auto_id="([^"]*)"[\s\S]*?control_type="([^"]*)"'
-#         matches = re.findall(pattern, identifiers_str)
-#         # result = [[match[0], match[1], match[2]] for match in matches]
-#         result = [match[0] for match in matches]
-#         selected_element = random.choice(result)
-#         # Tìm phần tử thích hợp
-#         index = None
-#         while index is None:
-#             selected_element = random.choice(result)
-#             for i, element in enumerate(result):
-#                 if element == selected_element and i > 1 and i <= 20 and "Out Of Stock" not in element:
-#                     index = i
-#                     break
-#
-#         # In ra số thứ tự của phần tử thích hợp
-#         print(f"Giá trị được chọn là: {selected_element}")
-#         print(f"Số thứ tự của giá trị được chọn là: {index}")
-#
-#         if len(result) > 20:
-#             total_index = 20
-#         else:
-#             total_index = len(result)
-#
-#         print(f"Tổng số lựa chọn là: {total_index}")
-#
-#         # Xác định tọa độ của lựa chọn:
-#         # List_height mặc định là 20pixel -> Khoảng rộng của ô List
-#         # Lấy tọa độ của combobox:
-#         width, height = pyautogui.size()
-#         combo_box_rect = combo_box.rectangle()
-#         combo_box_x_left = combo_box_rect.left
-#         combo_box_x_right = combo_box_rect.right
-#         combo_box_y_top = combo_box_rect.top
-#         combo_box_y_bottom = combo_box_rect.bottom
-#         # Tọa độ của List_Item được chọn
-#         list_item_x = random.randint(combo_box_x_left + 7, combo_box_x_right - 7)
-#         if combo_box_y_bottom + 5 + (total_index - 1) * list_height <= height - 40:
-#             list_item_y = random.randint(combo_box_y_bottom + 5 + (index - 1) * list_height + 2,
-#                                          combo_box_y_bottom + 5 + index * list_height - 2)
-#         else:
-#             list_item_y = random.randint(combo_box_y_top - 5 - (total_index - index) * list_height + 2,
-#                                          combo_box_y_top - 5 - (total_index - index - 1) * list_height - 2)
-#         print(f"Tọa độ click là: {list_item_x}, {list_item_y}")
-#         move_to(list_item_x, list_item_y)
-#         pywinauto.mouse.click(button='left', coords=(list_item_x, list_item_y))
-#         print(f"Chọn giá trị random cho item thành công")
-#     else:
-#         print("Không có option")
-
-
 # Thao tác trong trang items:
 def auto_actions_on_the_detailed_item_page():
     # Check if have close button
@@ -1501,7 +1437,7 @@ def search_item_by_keyword(keyword=None):
     if keyword is None:
         keyword = gmail._rd_first_name
     # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
-    scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox", scroll_speed=random.randint(2,5))
+    scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox", scroll_speed=random.randint(3,6))
     time.sleep(random.uniform(1, 2))
 
     # Nhập từ khóa vào ô tìm kiếm
@@ -1516,7 +1452,7 @@ def search_item_by_keyword(keyword=None):
     # Tùy chọn cho tìm kiếm:
     # Type of Listing:
     Type_of_listing = app.top_window().child_window(title="Auction", control_type="Hyperlink")
-    if random.random()<0.75:
+    if random.random()<0.7:
         Type_of_listing.wait('visible', timeout=30)
         sort_selector = app.top_window().child_window(title_re="Sort selector.*", control_type="Button")
         if sort_selector.exists():
@@ -1565,11 +1501,11 @@ def search_item_by_keyword(keyword=None):
         click_element_by_title_re("Listing options selector.*", "Button")
         Listing_options = app.top_window().child_window(title_re="Listing options selector.*", control_type="Button")
 
-        width, height = pyautogui.size()
+        # width, height = pyautogui.size()
         Listing_options_rect = Listing_options.rectangle()
         Listing_options_x_left = Listing_options_rect.left
         Listing_options_x_right = Listing_options_rect.right
-        # Listing_options_y_top = Listing_options_rect.top
+        Listing_options_y_top = Listing_options_rect.top
         Listing_options_y_bottom = Listing_options_rect.bottom
         # Tọa độ của List_Item được chọn
         selected_x = random.randint(Listing_options_x_left - 30 + 5, Listing_options_x_right - 5)
@@ -1618,6 +1554,16 @@ def scroll_random_actions(time_sleep=0.1):
         # Randomly move the mouse with a probability of 50%
         if random.random() < 0.7:
             mouse_move_to_rad()
+
+def print_element_infor():
+    descendants = app.top_window().descendants()
+    for element in descendants:
+        try:
+            element_info = f"Control Type: {element.element_info.control_type}\nClass Name: {element.element_info.class_name}\nName: {element.element_info.name}\nAutomation ID: {element.element_info.automation_id}\nRectangle: {element.element_info.rectangle}\n"
+            print(element_info)
+        except Exception as e:
+            print(f"Error printing control info: {e}")
+    time.sleep(20)
 def read_google_news(number_of_tabs=None):
     global read_google_news_has_run
     if read_google_news_has_run:
@@ -1640,7 +1586,7 @@ def read_google_news(number_of_tabs=None):
     # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
     try:
         address_bar.set_text("news.google.com")
-        time.sleep(2)
+        time.sleep(random.uniform(10,15))
         send_keys("{ENTER}")
         app.top_window().wait('ready', timeout=60)
     except Exception as e:
@@ -1650,16 +1596,108 @@ def read_google_news(number_of_tabs=None):
 # Thao tác trong news.google.com
     for _ in range(number_of_tabs):
         # Cuộn chuột từ trên xuống dưới:
-        scroll_down(1)
+        scroll_down(1,scroll_speed=1)
         click_random_element_with_classname_contains_then_check_title_change("JtKRv", "Hyperlink")
-        time.sleep(10)
-        scroll_random_actions(random.uniform(20,40))
+        time.sleep(random.uniform(7,15))
+        scroll_random_actions(random.uniform(10,20))
         time.sleep(random.uniform(10,30))
         # Đóng tab đang mở, quay về trang chủ Google News:
-        click_current_close_tab()
-        mouse_move_to_rad()
+        if app.top_window().child_window(title="Google News", control_type="Hyperlink").exists():
+            print("Đang ở trang chủ Google news, không close tab")
+        else:
+            click_current_close_tab()
+            mouse_move_to_rad()
         time.sleep(random.uniform(3,5))
     read_google_news_has_run = True
+
+def process_to_ebay_or_keep_the_tab():
+    try:
+        app = Application(backend="uia").connect(title_re=".*Edge.*")
+        app.top_window().wait('ready', timeout=60)
+        time.sleep(5)
+        address_bar = app.window(title_re='.*Profile.*').child_window(auto_id="view_1020", control_type="Edit")
+        address_bar.wait('ready', timeout=60)
+    except Exception as e:
+        print(f"Lỗi khi kết nối đến trình duyệt Microsoft Edge: {e}")
+        # exit()
+
+    if app.top_window().child_window(title="eBay Logo", control_type="Hyperlink").exists():
+        # search_item_by_keyword()
+        print("Thực hiện lệnh về Homepage hoặc tìm kiếm trực tiếp")
+        time.sleep(random.uniform(3, 10))
+    else:
+        # Thực hiện tác vụ mặc định nếu không phải là ebay
+        # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
+        try:
+            address_bar.set_text("ebay.com")
+            time.sleep(1)
+            send_keys("{ENTER}")
+            time.sleep(1)
+            mouse_move_to_rad()
+            app.top_window().wait('ready', timeout=60)
+        except Exception as e:
+            print(f"Lỗi khi truy cập trang web: {e}")
+            exit()
+        time.sleep(random.uniform(5,15))
+        # Tìm lời mời tải ứng dụng ebay, nếu có click vào nút close để đóng!
+        app_count = 0
+        app_button_visible = False
+        while not app_button_visible and app_count < 3:
+            try:
+                app_button = app.top_window().child_window(title_re=".*this dialog.*", control_type="Button")
+                time.sleep(3)
+                if app_button.exists():
+                    click_element_by_title_re(".*this dialog.*", "Button")
+                    app_button_visible = True
+                    print("Đóng lời mời tải ứng dụng thành công!")
+            except Exception as e:
+                print(f"Lỗi khi thực hiện thao tác: {e}")
+            app_count += 1
+            if app_count == 3:
+                print(f"Không tìm thấy phần tử sau {app_count} lần kiểm tra")
+        # while not app_button_visible:
+        #     try:
+        #         # Tìm phần tử qua title:
+        #         app_button = app.top_window().child_window(title_re=".*this dialog.*", control_type="Button")
+        #         # if app_button.is_visible():
+        #         if app_button.exists():
+        #             click_element_by_title_re(".*this dialog.*", "Button")
+        #             app_button_visible = True
+        #             print("Đóng lời mời tải ứng dụng ebay thành công!")
+        #         else:
+        #             time.sleep(3)
+        #             app_count = app_count + 1
+        #             print(f"Kiểm tra lại xuất hiện của lời mời tải ứng dụng Ebay lần thứ {app_count}")
+        #         if app_count == 3:
+        #             print(f"Không có lời mời tải ứng dụng Ebay sau {app_count} lần kiểm tra, dừng tìm kiếm")
+        #             break
+        #     except Exception as e:
+        #         print('Error occurred:', e)
+        # Đọc Ebay Seller Policy, xác suất là 10%
+        time.sleep(random.uniform(2, 3))
+        mouse_move_to_rad()
+
+        if random.random() <= 0.1:
+            read_ebay_selling_policy()
+            # Về trang chủ của ebay
+            go_to_ebay_home_page()
+            mouse_move_to_rad()
+
+        if random.random() <= 0.1:
+            # Cuon chuot ngau nhien
+            scroll_actions = [(random.randint(1, 2), "up"),(random.randint(1, 2), "up"),(random.randint(3, 5), "up"),
+                              (random.randint(3, 5), "down"),(random.randint(2, 4), "down"), (random.randint(1, 2), "down")]
+
+            # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
+            selected_actions = random.sample(scroll_actions, k=random.randint(2,6))
+            for scroll_amount, scroll_direction in selected_actions:
+                if scroll_direction == "down":
+                    scroll_down(scroll_amount)
+                else:
+                    scroll_up(scroll_amount)
+                # Randomly move the mouse with a probability of 50%
+                if random.random() < 0.7:
+                    mouse_move_to_rad()
 
 # Kiểm tra IP
 is_session_ok = False
@@ -1719,104 +1757,43 @@ time.sleep(5)
 Application(backend="uia").start(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 time.sleep(20)
 app = Application(backend="uia").connect(title_re=".*Profile.*")
+
+# Phóng to cửa sổ Edge:
+# app.top_window().maximize()
+try:
+    if app.top_window().child_window(title="Maximize", control_type="Button").exists():
+        click_element_by_title("Maximize", "Button")
+        mouse_move_to_rad()
+        print("Maximize Edge thành công ")
+    else:
+        print("Edge đã ở chế độ Full màn hình ")
+except Exception as e:
+    print(f"Có lỗi xảy ra: {e}")
+    # exit()
+time.sleep(5)
+
+try:
+    if app.top_window().child_window(class_name="ImageButton", control_type="Button").exists():
+        click_element_by_classname("ImageButton","Button")
+        time.sleep(0.5)
+        mouse_move_to_rad()
+        print("Đã đóng hộp thoại restore section")
+    else:
+        print("Edge is Okay")
+except Exception as e:
+    print('Error occurred:', e)
+
 width, height = pyautogui.size()
-
-# read_google_news()
-# time.sleep(1000)
 read_google_news_has_run = False
-
 for gmail in _arr_gmail_infor:
     try:
-        try:
-            app = Application(backend="uia").connect(title_re=".*Edge.*")
-            app.top_window().wait('ready', timeout=60)
-            app.top_window().maximize()
-            time.sleep(10)
-            address_bar = app.window(title_re='.*Profile.*').child_window(auto_id="view_1020",
-                                                                                      control_type="Edit")
-            address_bar.wait('ready', timeout=60)
-        except Exception as e:
-            print(f"Lỗi khi kết nối đến trình duyệt Microsoft Edge: {e}")
-            exit()
-
-        # Nhập địa chỉ trang web và chờ cho đến khi nó được tải hoàn tất
-        try:
-            address_bar.set_text("ebay.com")
-            time.sleep(2)
-            send_keys("{ENTER}")
-            app.top_window().wait('ready', timeout=60)
-        except Exception as e:
-            print(f"Lỗi khi truy cập trang web: {e}")
-            exit()
-        time.sleep(random.uniform(5,15))
-        # app_button = app.top_window().child_window(title_re=".*this dialog.*", control_type="Button")
-        # app_button.wait('visible', timeout=15)
-        # Tìm lời mời tải ứng dụng ebay, nếu có click vào nút close để đóng!
-        app_count = 0
-        app_button_visible = False
-        while not app_button_visible and app_count < 3:
-            try:
-                app_button = app.top_window().child_window(title="Dismiss this dialog", control_type="Button")
-                time.sleep(3)
-                if app_button.exists():
-                    click_element_by_title_re(".*this dialog.*", "Button")
-                    app_button_visible = True
-                    print("Đóng lời mời tải ứng dụng thành công!")
-            except Exception as e:
-                print(f"Lỗi khi thực hiện thao tác: {e}")
-            app_count += 1
-            if app_count == 3:
-                print(f"Không tìm thấy phần tử sau {app_count} lần kiểm tra")
-
-        # while not app_button_visible:
-        #     try:
-        #         # Tìm phần tử qua title:
-        #         app_button = app.top_window().child_window(title_re=".*this dialog.*", control_type="Button")
-        #         # if app_button.is_visible():
-        #         if app_button.exists():
-        #             click_element_by_title_re(".*this dialog.*", "Button")
-        #             app_button_visible = True
-        #             print("Đóng lời mời tải ứng dụng ebay thành công!")
-        #         else:
-        #             time.sleep(3)
-        #             app_count = app_count + 1
-        #             print(f"Kiểm tra lại xuất hiện của lời mời tải ứng dụng Ebay lần thứ {app_count}")
-        #         if app_count == 3:
-        #             print(f"Không có lời mời tải ứng dụng Ebay sau {app_count} lần kiểm tra, dừng tìm kiếm")
-        #             break
-        #     except Exception as e:
-        #         print('Error occurred:', e)
-        # Đọc Ebay Seller Policy, xác suất là 10%
-        time.sleep(random.uniform(2, 3))
-        mouse_move_to_rad()
-
-        if random.random() <= 0.1:
-            read_ebay_selling_policy()
-            # Về trang chủ của ebay
-            go_to_ebay_home_page()
-            mouse_move_to_rad()
-
-        if random.random() <= 0.1:
-            # Cuon chuot ngau nhien
-            scroll_actions = [(random.randint(1, 2), "up"),(random.randint(1, 2), "up"),(random.randint(3, 5), "up"),
-                              (random.randint(3, 5), "down"),(random.randint(2, 4), "down"), (random.randint(1, 2), "down")]
-
-            # Lấy một mẫu ngẫu nhiên 2 hành động từ danh sách scroll_actions
-            selected_actions = random.sample(scroll_actions, k=random.randint(2,6))
-            for scroll_amount, scroll_direction in selected_actions:
-                if scroll_direction == "down":
-                    scroll_down(scroll_amount)
-                else:
-                    scroll_up(scroll_amount)
-                # Randomly move the mouse with a probability of 50%
-                if random.random() < 0.7:
-                    mouse_move_to_rad()
-
+        # Kiểm tra nếu title là ebay thì giữ nguyên, nếu không phải về ebay.com
+        process_to_ebay_or_keep_the_tab()
         # Tìm kiếm sản phẩm bằng keyword
         search_item_by_keyword()
         # Thao tác trong trang items chi tiết:
         auto_actions_on_the_detailed_item_page()
-        if random.random() < 0.7:
+        if random.random() < 0.5:
             read_google_news()
 
     except:
