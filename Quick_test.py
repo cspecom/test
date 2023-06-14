@@ -1127,7 +1127,7 @@ def scroll_up_to_element_and_click_by_auto_id(auto_id, controltype, scroll_speed
             target_element = app.top_window().child_window(auto_id=auto_id, control_type=controltype)
             if target_element.is_visible():
                 is_element_visible = True
-                scroll_up(1, random.randint(1,3))
+                scroll_up(1, 1)
                 mouse_move_to_rad()
                 time.sleep(random.uniform(1, 2))
                 click_element_by_auto_id(auto_id, controltype, x_offset, y_offset)
@@ -1437,6 +1437,7 @@ def search_item_by_keyword(keyword=None):
     if keyword is None:
         keyword = gmail._rd_first_name
     # Cuộn lên và tìm click vào Ô search Items, nếu không tìm thấy, sẽ chờ mãi ở đây:
+    # scroll_up_to_element_and_click_by_auto_id("gh-ac", "Edit", scroll_speed=random.randint(3,6))
     scroll_up_to_element_and_click_by_auto_id("gh-ac", "ComboBox", scroll_speed=random.randint(3,6))
     time.sleep(random.uniform(1, 2))
 
@@ -1655,35 +1656,16 @@ def process_to_ebay_or_keep_the_tab():
             app_count += 1
             if app_count == 3:
                 print(f"Không tìm thấy phần tử sau {app_count} lần kiểm tra")
-        # while not app_button_visible:
-        #     try:
-        #         # Tìm phần tử qua title:
-        #         app_button = app.top_window().child_window(title_re=".*this dialog.*", control_type="Button")
-        #         # if app_button.is_visible():
-        #         if app_button.exists():
-        #             click_element_by_title_re(".*this dialog.*", "Button")
-        #             app_button_visible = True
-        #             print("Đóng lời mời tải ứng dụng ebay thành công!")
-        #         else:
-        #             time.sleep(3)
-        #             app_count = app_count + 1
-        #             print(f"Kiểm tra lại xuất hiện của lời mời tải ứng dụng Ebay lần thứ {app_count}")
-        #         if app_count == 3:
-        #             print(f"Không có lời mời tải ứng dụng Ebay sau {app_count} lần kiểm tra, dừng tìm kiếm")
-        #             break
-        #     except Exception as e:
-        #         print('Error occurred:', e)
+
         # Đọc Ebay Seller Policy, xác suất là 10%
         time.sleep(random.uniform(2, 3))
-        mouse_move_to_rad()
-
-        if random.random() <= 0.1:
+        if random.random() <= 0.01:
             read_ebay_selling_policy()
             # Về trang chủ của ebay
             go_to_ebay_home_page()
             mouse_move_to_rad()
 
-        if random.random() <= 0.1:
+        if random.random() <= 0.01:
             # Cuon chuot ngau nhien
             scroll_actions = [(random.randint(1, 2), "up"),(random.randint(1, 2), "up"),(random.randint(3, 5), "up"),
                               (random.randint(3, 5), "down"),(random.randint(2, 4), "down"), (random.randint(1, 2), "down")]
