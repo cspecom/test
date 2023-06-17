@@ -1217,9 +1217,18 @@ def click_current_close_tab():
 # Về trang chủ ở bất kỳ trang nào ở ebay
 def go_to_ebay_home_page():
     mouse_move_to_rad()
-    time.sleep(random.uniform(1, 3))
     scroll_up_to_element_and_click_by_title("eBay Logo", "Hyperlink", scroll_speed=random.randint(3,5))
-
+    time.sleep(random.randint(2,5))
+    if app.top_window().child_window(title="Home", control_type="ListItem").is_visible():
+        print("Đã về eBay.com")
+    else:
+        mouse_move_to_rad()
+        try:
+            click_element_by_title("eBay Logo", "Hyperlink")
+            print("Okay 2")
+        except:
+            print("Đã Có lỗi xảy ra")
+            
 # Đọc ebay Help&Contact
 def read_ebay_selling_policy():
     click_element_by_title("Help & Contact", "Hyperlink")
