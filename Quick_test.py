@@ -1338,7 +1338,10 @@ def auto_actions_on_the_detailed_item_page():
                 print("Không có nút next image")
                 break
         time.sleep(random.uniform(1, 2))
-        click_element_by_title("Close image gallery dialog", "Button", 5, 5)
+        try:
+            click_element_by_title("Close image gallery dialog", "Button", 5, 5)
+        except:
+            print("Khong co nut close image")
         time.sleep(random.uniform(0.1, 1))
         mouse_move_to_rad()
 
