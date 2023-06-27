@@ -25,6 +25,9 @@ print(
     "V1.1.4:\n- New scroll method\n- Click random item trong trang search chỉ 1 lần ngẫu nhiên, Kiểm tra mở link mới hay chưa\n- Click random item trong trang item details 1 lần ngẫu nhiên, Kiểm tra mở link mới hay chưa\n- Click vào link google news ngẫu nhiên 1 lần, kiểm tra đã mở link hay chưa\n- Fix lỗi crash file Run\n- Close tab bằng close tab button\n- Phóng to edge bằng maximize button\n- Thiết lập chạy read google news 1 lần duy nhất trong phiên\n- Fix lỗi không close app button\n")
 print(
     "V1.1.5:\n- Fix read goole news\n- Tắt hộp thoại Edge Restore Sections nếu có\n- Fix tính năng full screen\n- Fix lỗi close edge không mong muốn\n")
+print(
+    "V1.1.6:\n- Auto login eBay (lite)\n- 27-06-2023\n")
+
 
 print("Chờ 2 phút trước khi bắt đầu chạy\n")
 time.sleep(120)
