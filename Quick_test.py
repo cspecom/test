@@ -30,8 +30,8 @@ print(
     "V1.1.6:\n- Auto login eBay (lite)\n- 27-06-2023\n")
 
 
-print("Chờ 2 phút trước khi bắt đầu chạy\n")
-time.sleep(120)
+print("Chờ 1 phút trước khi bắt đầu chạy\n")
+time.sleep(60)
 dirname = os.path.dirname(__file__)
 file_dir = os.path.join(dirname, 'assets\\')
 
@@ -1899,7 +1899,7 @@ def process_to_ebay_or_keep_the_tab():
 
         # Đọc Ebay Seller Policy, xác suất là 10%
         time.sleep(random.uniform(2, 3))
-        if random.random() <= 0.1:
+        if random.random() <= 0.01:
             read_ebay_selling_policy()
             # Về trang chủ của ebay
             go_to_ebay_home_page()
